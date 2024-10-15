@@ -25,4 +25,17 @@ public class HobbyController {
 
         return BaseResponse.onSuccess(recordId);
     }
+
+    @PostMapping("/routine/{userId}")
+    public BaseResponse<Long> addHobbyRoutine(
+            @RequestBody @Valid HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto,
+            @PathVariable Long userId
+//            @RequestHeader("Authorization") String authorizationHeader
+    ){
+        Long routineId = hobbyCommonService.addHobbyRoutine(hobbyRoutineDto, userId);
+
+        return BaseResponse.onSuccess(routineId);
+    }
 }
+
+

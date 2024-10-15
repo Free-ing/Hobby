@@ -20,15 +20,16 @@ public class HobbyRoutine extends BaseEntity {
     private String explanation;
     private Long userId;
     private Boolean status;
+    private String imageUrl;
 
     @OneToMany(mappedBy = "hobbyRoutine", cascade = CascadeType.ALL)
     private List<HobbyRecord> hobbyRecordList = new ArrayList<>();
 
     @Builder
-    public void setHobbyRoutine(String hobbyName, String explanation, Long userId, Boolean status) {
+    public HobbyRoutine(String hobbyName, String explanation, Long userId, String imageUrl) {
         this.hobbyName = hobbyName;
         this.explanation = explanation;
         this.userId = userId;
-        this.status = status;
+        this.imageUrl = imageUrl;
     }
 }

@@ -21,4 +21,19 @@ public class HobbyRequestDto {
         private String hobbyBody;
 
     }
+
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class hobbyRoutineDto{
+        @NotEmpty(message = "취미의 이름을 정해주세요.")
+        private String hobbyName;
+
+        private String imageUrl;
+
+        private String explanation;
+    }
+
+
 }
