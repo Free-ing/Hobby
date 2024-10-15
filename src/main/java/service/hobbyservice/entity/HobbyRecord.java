@@ -2,12 +2,14 @@ package service.hobbyservice.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import service.hobbyservice.base.BaseEntity;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.StringJoiner;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,13 +19,13 @@ public class HobbyRecord extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String record;
+    private String recordBody;
 
-    private Date hobbyDay;
+//    private Date hobbyDay;
 
-    private String photoUrl;
+    private String imageUrl;
 
-    private String hobbyName;
+//    private String hobbyName;
 
     private Long userId;
 
@@ -31,6 +33,16 @@ public class HobbyRecord extends BaseEntity {
     @JoinColumn(name = "hobby_routine_id")
     private HobbyRoutine hobbyRoutine;
 
-    private Time hobbyTime;
+//    private Time hobbyTime;
 
+    @Builder
+    public HobbyRecord(String recordBody, HobbyRoutine hobbyRoutine) {
+        this.recordBody = recordBody;
+        this.imageUrl = imageUrl;
+        this.hobbyRoutine = hobbyRoutine;
+    }
+
+    public void setHobbyRoutine(HobbyRoutine hobbyRoutine){
+        this.hobbyRoutine = hobbyRoutine;
+    }
 }

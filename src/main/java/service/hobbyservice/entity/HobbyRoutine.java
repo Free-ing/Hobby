@@ -24,7 +24,7 @@ public class HobbyRoutine extends BaseEntity {
     private List<HobbyRecord> hobbyRecordList = new ArrayList<>();
 
     @Builder
-    public HobbyRoutine(String hobbyName, String explanation, Long userId, Boolean status) {
+    public void setHobbyRoutine(String hobbyName, String explanation, Long userId, Boolean status) {
         this.hobbyName = hobbyName;
         this.explanation = explanation;
         this.userId = userId;
