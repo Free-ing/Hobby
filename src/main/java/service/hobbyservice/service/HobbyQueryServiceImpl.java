@@ -1,6 +1,5 @@
 package service.hobbyservice.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import service.hobbyservice.entity.HobbyRoutine;
@@ -8,12 +7,14 @@ import service.hobbyservice.repository.HobbyRoutineRepository;
 
 @RequiredArgsConstructor
 @Service
-public class HobbyQueryServiceImpl implements HobbyQueryService{
+public class HobbyQueryServiceImpl implements HobbyQueryService {
 
-    HobbyRoutineRepository hobbyRoutineRepository;
+    private final HobbyRoutineRepository hobbyRoutineRepository;
 
     @Override
-    public HobbyRoutine findHobbyRoutineByNameAndUserId(String hobbyName, Long userId) {
+    public HobbyRoutine findByHobbyNameAndUserId(String hobbyName, Long userId) {
+        System.out.println(hobbyName);
+        System.out.println(userId);
         return hobbyRoutineRepository.findByHobbyNameAndUserId(hobbyName, userId)
                 .orElseThrow(() -> new RuntimeException("HobbyRoutine not found"));
     }

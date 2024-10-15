@@ -36,10 +36,10 @@ public class HobbyRecord extends BaseEntity {
 //    private Time hobbyTime;
 
     @Builder
-    public HobbyRecord(String recordBody, HobbyRoutine hobbyRoutine) {
+    public HobbyRecord(String recordBody, Long userId, String imageUrl) {
         this.recordBody = recordBody;
         this.imageUrl = imageUrl;
-        this.hobbyRoutine = hobbyRoutine;
+        this.userId = userId;
     }
 
     public void setHobbyRoutine(HobbyRoutine hobbyRoutine){

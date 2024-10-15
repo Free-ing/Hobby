@@ -5,9 +5,13 @@ import service.hobbyservice.entity.HobbyRecord;
 
 public class HobbyConverter {
 
-    public static HobbyRecord toHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto){
+
+    // dto를 record 객체로 변환
+    public static HobbyRecord toHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto,Long userId){
         return HobbyRecord.builder()
                 .recordBody(hobbyRecordDto.getHobbyBody())
+                .userId(userId)
+                .imageUrl(hobbyRecordDto.getImageUrl())
                 .build();
        }
 }

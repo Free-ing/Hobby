@@ -20,10 +20,10 @@ public class HobbyCommonServiceImpl implements HobbyCommonService{
     public Long createHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long userId){
 
         // 엔티티로 변환
-        HobbyRecord hobbyRecord = HobbyConverter.toHobbyRecord(hobbyRecordDto);
+        HobbyRecord hobbyRecord = HobbyConverter.toHobbyRecord(hobbyRecordDto,userId);
 
         //루틴 객체 찾아오기
-        HobbyRoutine hobbyRoutine = hobbyQueryService.findHobbyRoutineByNameAndUserId(hobbyRecordDto.getHobbyName(), userId);
+        HobbyRoutine hobbyRoutine = hobbyQueryService.findByHobbyNameAndUserId(hobbyRecordDto.getHobbyName(), userId);
 
 
         // 루틴 기록에 루틴 카테고리 설장

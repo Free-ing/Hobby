@@ -15,6 +15,7 @@ public class HobbyRoutine extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name =  "hobby_name")
     private String hobbyName;
     private String explanation;
     private Long userId;

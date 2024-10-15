@@ -20,8 +20,7 @@ public class HobbyController {
             @PathVariable Long userId
 //            @RequestHeader("Authorization") String authorizationHeader
     ){
-
-        hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
+        System.out.println(hobbyRecordDto.getHobbyName());
         Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
 
         return BaseResponse.onSuccess(recordId);
