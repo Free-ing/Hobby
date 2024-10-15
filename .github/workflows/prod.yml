@@ -15,6 +15,10 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
+      - name: application.yml 생성
+        run: |
+          echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
+
       - name: Gradle 빌드
         run: |
           chmod +x ./gradlew
@@ -44,3 +48,6 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           
           echo "이미지가 성공적으로 업데이트되었습니다: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: application.yml 제거
+        run: rm src/main/resources/application.yml
