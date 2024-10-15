@@ -17,8 +17,8 @@ public class HobbyController {
     @PostMapping("/record/{userId}")
     public BaseResponse<Long> recordHobby(
             @RequestBody @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
-            @PathVariable Long userId,
-            @RequestHeader("Authorization") String authorizationHeader
+            @PathVariable Long userId
+//            @RequestHeader("Authorization") String authorizationHeader
     ){
 
         hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
