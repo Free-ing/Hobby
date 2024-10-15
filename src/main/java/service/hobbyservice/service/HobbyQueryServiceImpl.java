@@ -2,10 +2,12 @@ package service.hobbyservice.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import service.hobbyservice.entity.HobbyRoutine;
 import service.hobbyservice.repository.HobbyRoutineRepository;
 
 @RequiredArgsConstructor
+@Service
 public class HobbyQueryServiceImpl implements HobbyQueryService{
 
     HobbyRoutineRepository hobbyRoutineRepository;

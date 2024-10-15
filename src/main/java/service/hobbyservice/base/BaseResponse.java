@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import service.freeing.base.exception.code.SuccessStatus;
+import service.hobbyservice.base.exception.code.SuccessStatus;
 
 import java.time.LocalDateTime;
 
