@@ -2,6 +2,8 @@ package service.hobbyservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import service.hobbyservice.base.exception.code.RestApiException;
+import service.hobbyservice.base.exception.code.RoutineErrorStatus;
 import service.hobbyservice.converter.toEntity.HobbyConverter;
 import service.hobbyservice.dto.request.HobbyRequestDto;
 import service.hobbyservice.entity.HobbyRecord;
@@ -38,6 +40,16 @@ public class HobbyCommonServiceImpl implements HobbyCommonService{
     //Todo: 취미 루틴 추가하기
     @Override
     public Long addHobbyRoutine(HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto, Long userId){
+
+        System.out.println(hobbyRoutineDto.getHobbyName());
+        System.out.println(userId);
+
+        HobbyRoutine findHobbyRoutine = hobbyQueryService.findByHobbyNameAndUserId(hobbyRoutineDto.getHobbyName(), userId);
+
+        if(findHobbyRoutine!=null){
+            throw new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_ALREADY_EXIST);
+        }
+
         HobbyRoutine  hobbyRoutine = HobbyConverter.toHobbyRoutine(hobbyRoutineDto,userId);
         HobbyRoutine saveHobbyRoutine = hobbyRoutineRepository.save(hobbyRoutine);
 
