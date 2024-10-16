@@ -12,7 +12,7 @@ public class HobbyConverter {
         return HobbyRecord.builder()
                 .recordBody(hobbyRecordDto.getHobbyBody())
                 .userId(userId)
-                .imageUrl(hobbyRecordDto.getImageUrl())
+                .photoUrl(hobbyRecordDto.getImageUrl())
                 .build();
     }
 

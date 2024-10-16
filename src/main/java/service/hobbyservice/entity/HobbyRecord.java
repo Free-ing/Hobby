@@ -23,7 +23,7 @@ public class HobbyRecord extends BaseEntity {
 
 //    private Date hobbyDay;
 
-    private String imageUrl;
+    private String photoUrl;
 
 //    private String hobbyName;
 
@@ -36,9 +36,9 @@ public class HobbyRecord extends BaseEntity {
 //    private Time hobbyTime;
 
     @Builder
-    public HobbyRecord(String recordBody, Long userId, String imageUrl) {
+    public HobbyRecord(String recordBody, Long userId, String photoUrl) {
         this.recordBody = recordBody;
-        this.imageUrl = imageUrl;
+        this.photoUrl = photoUrl;
         this.userId = userId;
     }
 
