@@ -48,5 +48,5 @@ jobs:
           
           echo "이미지가 성공적으로 업데이트되었습니다: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-      - name: application.yml 파일 제거
+      - name: application.yml 파일 제거.
         run: rm -f src/main/resources/application.yml
