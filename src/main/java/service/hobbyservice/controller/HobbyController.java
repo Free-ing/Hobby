@@ -87,7 +87,7 @@ public class HobbyController {
 
     //Todo: 취미 기록 조회
     @GetMapping("/album-list/{userId}")
-    public ResponseEntity<List<HobbyResponseDto.AlbumResponseDto>> getAlbumList(
+    public BaseResponse<List<HobbyResponseDto.AlbumResponseDto>> getAlbumList(
             @PathVariable Long userId,
             @RequestParam Integer year,
             @RequestParam Integer month
@@ -96,9 +96,8 @@ public class HobbyController {
 
         // 로직 구현
         List<HobbyResponseDto.AlbumResponseDto> albums = hobbyQueryService.getAlbumList(year, month,userId);
-        return ResponseEntity.ok(albums);
+        return BaseResponse.onSuccess(albums);
     }
-
 
 
 

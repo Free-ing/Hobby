@@ -19,6 +19,7 @@ public class HobbyResponseDto {
     public static class HobbyRoutineDto{
         private String hobbyName;
         private String imageUrl;
+        private Long routineId;
 
     }
 

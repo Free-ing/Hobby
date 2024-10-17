@@ -17,7 +17,7 @@ public interface HobbyRoutineRepository extends JpaRepository<HobbyRoutine,Long>
     @Query("SELECT hr FROM HobbyRoutine hr WHERE hr.hobbyName = :hobbyName AND hr.userId = :userId")
     HobbyRoutine findByHobbyNameAndUserIdOrNull(@Param("hobbyName") String hobbyName, @Param("userId") Long userId);
 
-    @Query("SELECT new service.hobbyservice.dto.response.HobbyResponseDto$HobbyRoutineDto(hr.hobbyName, hr.imageUrl) FROM HobbyRoutine hr WHERE hr.userId = :userId")
+    @Query("SELECT new service.hobbyservice.dto.response.HobbyResponseDto$HobbyRoutineDto(hr.hobbyName, hr.imageUrl, hr.id) FROM HobbyRoutine hr WHERE hr.userId = :userId")
     List<HobbyResponseDto.HobbyRoutineDto> findByUserId(@Param("userId") Long userId);
 
 //    Optional<HobbyRoutine> findByIdAndUserId(Long id, Long userId);

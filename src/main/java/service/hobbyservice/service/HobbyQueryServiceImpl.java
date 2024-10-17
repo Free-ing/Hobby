@@ -35,12 +35,14 @@ public class HobbyQueryServiceImpl implements HobbyQueryService {
 //                .collect(Collectors.toList());
 //    }
 
+    //Todo: userId로 회원 취미 루틴 List 조회
     @Override
     public List<HobbyResponseDto.HobbyRoutineDto> getHobbyRoutineListByUserId(Long userId) {
         return hobbyRoutineRepository.findByUserId(userId);
     }
 
 
+    //Todo: 취미 이름과 userId로 취미 루틴 찾게 하는 건데 null로 반환 받아도 되는 메서드(취미 추가할 때 값이 null 이 아니면 추가하지 못하게끔)
     @Override
     public HobbyRoutine findByHobbyNameAndUserIdOrNull(String hobbyName, Long userId) {
         return hobbyRoutineRepository.findByHobbyNameAndUserIdOrNull(hobbyName,userId);
