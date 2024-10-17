@@ -16,4 +16,6 @@ public interface HobbyCommonService {
     HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long recordId, Long userId);
 
 
+    //Todo: 취미 루틴 삭제
+    void deleteHobbyRoutine(Long routineId, Long userId);
 }

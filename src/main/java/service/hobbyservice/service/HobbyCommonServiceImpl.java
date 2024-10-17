@@ -12,9 +12,6 @@ import service.hobbyservice.entity.HobbyRoutine;
 import service.hobbyservice.repository.HobbyRecordRepository;
 import service.hobbyservice.repository.HobbyRoutineRepository;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static service.hobbyservice.converter.toDto.toDto.toHobbyRecordDto;
 
 @RequiredArgsConstructor
@@ -85,6 +82,15 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
 
     }
 
+    //Todo: 취미 루틴 삭제
+    @Override
+    public void deleteHobbyRoutine(Long routineId, Long userId){
+        HobbyRoutine hobbyRoutine = hobbyRoutineRepository.findByIdAndUserId(routineId,userId)
+                .orElseThrow(() -> new RestApiException(RoutineErrorStatus.USER_CANT_DELETE));
+
+        hobbyRoutineRepository.delete(hobbyRoutine);
+
+    }
 
 
 
