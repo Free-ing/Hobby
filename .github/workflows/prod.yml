@@ -43,7 +43,7 @@ jobs:
           # 이미지 빌드
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           
-          # ECR로 푸시 (기존 이미지 덮어쓰기)
+          # ECR로 푸시 (기존 이미지 덮어쓰기).
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           
           echo "이미지가 성공적으로 업데이트되었습니다: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
