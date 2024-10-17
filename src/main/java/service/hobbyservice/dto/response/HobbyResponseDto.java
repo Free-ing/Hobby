@@ -9,12 +9,25 @@ import service.hobbyservice.entity.HobbyRoutine;
 public class HobbyResponseDto {
 
 
-    //회원의 취미 루틴 리스트 반환에 사용되는 dtp
+    //회원의 취미 루틴 리스트 반환에 사용되는 dto
     @Getter
     @AllArgsConstructor
     @Builder
     public static class HobbyRoutineDto{
-        private String HobbyName;
+        private String hobbyName;
         private String imageUrl;
+
+    }
+
+    //회원의 취미 기록 반환에 사용되는 dto
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class HobbyRecordDto{
+        private String hobbyName;
+
+        private String photoUrl;
+
+        private String explanation;
     }
 }

@@ -6,6 +6,7 @@ import service.hobbyservice.base.exception.code.RestApiException;
 import service.hobbyservice.base.exception.code.RoutineErrorStatus;
 import service.hobbyservice.dto.response.HobbyResponseDto;
 import service.hobbyservice.entity.HobbyRoutine;
+import service.hobbyservice.repository.HobbyRecordRepository;
 import service.hobbyservice.repository.HobbyRoutineRepository;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class HobbyQueryServiceImpl implements HobbyQueryService {
 
     private final HobbyRoutineRepository hobbyRoutineRepository;
+    private final HobbyRecordRepository hobbyRecordRepository;
 
     //Todo: 취미와 user의 id로 취미 루틴 찾기
     @Override

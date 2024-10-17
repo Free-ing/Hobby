@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import service.hobbyservice.entity.HobbyRoutine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class HobbyRequestDto {
         @NotEmpty(message = "취미의 이름을 정해주세요.")
         private String hobbyName;
 
-        private String imageUrl;
+        private String photoUrl;
 
         private String hobbyBody;
 

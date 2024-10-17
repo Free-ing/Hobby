@@ -1,6 +1,7 @@
 package service.hobbyservice.converter.toEntity;
 
 import service.hobbyservice.dto.request.HobbyRequestDto;
+import service.hobbyservice.dto.response.HobbyResponseDto;
 import service.hobbyservice.entity.HobbyRecord;
 import service.hobbyservice.entity.HobbyRoutine;
 
@@ -12,7 +13,7 @@ public class HobbyConverter {
         return HobbyRecord.builder()
                 .recordBody(hobbyRecordDto.getHobbyBody())
                 .userId(userId)
-                .photoUrl(hobbyRecordDto.getImageUrl())
+                .photoUrl(hobbyRecordDto.getPhotoUrl())
                 .build();
     }
 
@@ -24,4 +25,5 @@ public class HobbyConverter {
                 .userId(userId)
                 .build();
     }
+
 }

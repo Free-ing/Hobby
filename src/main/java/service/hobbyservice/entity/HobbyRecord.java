@@ -45,4 +45,12 @@ public class HobbyRecord extends BaseEntity {
     public void setHobbyRoutine(HobbyRoutine hobbyRoutine){
         this.hobbyRoutine = hobbyRoutine;
     }
+
+
+    //취미 업데이트
+    public void updateRecord(HobbyRoutine hobbyRoutine, String recordBody, String photoUrl) {
+        this.hobbyRoutine = hobbyRoutine;
+        this.recordBody = recordBody;
+        this.photoUrl = photoUrl;
+    }
 }

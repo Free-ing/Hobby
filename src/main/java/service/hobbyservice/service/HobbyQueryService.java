@@ -11,4 +11,7 @@ public interface HobbyQueryService {
 
     //Todo: userId로 회원의 취미 루틴 LIst 조회
     List<HobbyResponseDto.HobbyRoutineDto> getHobbyRoutineListByUserId(Long userId);
+
+
+
 }

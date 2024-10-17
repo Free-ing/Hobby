@@ -57,6 +57,21 @@ public class HobbyController {
         List<HobbyResponseDto.HobbyRoutineDto> hobbyRoutines = hobbyQueryService.getHobbyRoutineListByUserId(userId);
         return BaseResponse.onSuccess(hobbyRoutines);
     }
+
+    //Todo: 취미 기록 수정
+    @PutMapping("/record/{recordId}/{userId}")
+    public BaseResponse<> updateRoutineRecord(
+            @PathVariable Long recordId,
+            @PathVariable Long userId,
+            @RequestBody @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto
+            // @RequestHeader("Authorization") String authorizationHeader
+    ){
+
+
+
+    }
+
+
 }
 
 
