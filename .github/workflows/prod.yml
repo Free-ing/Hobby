@@ -59,7 +59,7 @@ jobs:
             aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids imageTag=$IMAGE_TAG
             echo "이전 이미지가 성공적으로 삭제되었습니다."
           else
-            echo "삭제할 이전 이미지가 없습니다."
+            echo "삭제할 이전 이미지가 없습니다"
           fi
 
       - name: application.yml 파일 제거
