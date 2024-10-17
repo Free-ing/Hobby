@@ -20,4 +20,5 @@ public interface HobbyRecordRepository extends JpaRepository<HobbyRecord, Long> 
     @Query("SELECT hr FROM HobbyRecord hr WHERE YEAR(hr.createdAt) = :year AND MONTH(hr.createdAt) = :month AND hr.userId = :userId")
     List<HobbyRecord> findByYearAndMonth(@Param("year") int year, @Param("month") int month, Long userId);
 
+    Optional<HobbyRecord> findByIdAndUserId(Long id, Long userId);
 }

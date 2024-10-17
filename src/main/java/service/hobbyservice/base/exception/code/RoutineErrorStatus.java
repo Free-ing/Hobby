@@ -10,7 +10,7 @@ public enum RoutineErrorStatus implements BaseErrorCodeInterface {
     RECORD_NOT_FOUND(HttpStatus.BAD_REQUEST, "HOBBY_4003", "존재하지 않는 취미 기록입니다."),
 
 
-    USER_CANT_DELETE(HttpStatus.BAD_REQUEST, "USER_4001", "삭제할 권한이 없습니다.");
+    USER_CANT_DELETE(HttpStatus.BAD_REQUEST, "USER_4001", "삭제할 대상이 없거나 삭제할 권한이 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

@@ -89,9 +89,16 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
                 .orElseThrow(() -> new RestApiException(RoutineErrorStatus.USER_CANT_DELETE));
 
         hobbyRoutineRepository.delete(hobbyRoutine);
-
     }
 
+    //Todo: 취미 기록 삭제
+    @Override
+    public void deleteHobbyRecord(Long recordId, Long userId){
+        HobbyRecord hobbyRecord = hobbyRecordRepository.findByIdAndUserId(recordId,userId)
+                .orElseThrow(() -> new RestApiException(RoutineErrorStatus.USER_CANT_DELETE));
+
+        hobbyRecordRepository.delete(hobbyRecord);
+    }
 
 
 }

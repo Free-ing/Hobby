@@ -114,9 +114,22 @@ public class HobbyController {
         //        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
       hobbyCommonService.deleteHobbyRoutine(routineId,userId);
-      return BaseResponse.onSuccess("성공적으로 삭제했습니다.");
+      return BaseResponse.onSuccess("성공적으로 취미 루틴을 삭제했습니다.");
     }
 
+    //Todo: 취미 기록 삭제
+    @DeleteMapping("/record/{recordId}/{userId}")
+    public BaseResponse<String> deleteHobbyRecord(
+            @PathVariable Long recordId,
+            @PathVariable Long userId
+            //@RequestHeader("Authorization") String authorizationHeader
+
+    ){
+        //        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+
+        hobbyCommonService.deleteHobbyRecord(recordId,userId);
+        return BaseResponse.onSuccess("성공적으로 취미 기록을 삭제했습니다.");
+    }
 
 
 
