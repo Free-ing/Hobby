@@ -14,12 +14,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
-
       - name: application.yml 생성
         run: |
           mkdir -p src/main/resources
           echo "${{ secrets.APPLICATION_YML }}" | base64 -d > src/main/resources/application.yml
-
       - name: Gradle 빌드
         run: |
           chmod +x ./gradlew
@@ -42,13 +40,10 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
           IMAGE_TAG: latest
         run: |
-          # 이미지 빌드임
+          # 이미지 빌드
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           
           # ECR로 푸시 (기존 이미지 덮어쓰기)
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           
           echo "이미지가 성공적으로 업데이트되었습니다: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-
-      - name: application.yml 파일 제거
-        run: rm -f src/main/resources/application.yml
