@@ -29,6 +29,7 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
     //Todo: 취미 기록하기
     public Long createHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long userId) {
 
+        System.out.println(hobbyRecordDto.getPhotoUrl());
         // 엔티티로 변환
         HobbyRecord hobbyRecord = HobbyConverter.toHobbyRecord(hobbyRecordDto, userId);
 
@@ -70,7 +71,7 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
 
         //취미 기록 불러오기
         HobbyRecord hobbyRecord = hobbyRecordRepository.findById(recordId)
-                .orElseThrow(() -> new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_NOT_FOUND));
+                .orElseThrow(() -> new RestApiException(RoutineErrorStatus.RECORD_NOT_FOUND));
 
         // 사용자가 원하는 취미 루틴 불러오기
         HobbyRoutine hobbyRoutine = hobbyRoutineRepository.findByHobbyNameAndUserId(hobbyRecordDto.getHobbyName(), userId)

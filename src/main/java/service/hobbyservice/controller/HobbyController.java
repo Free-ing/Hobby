@@ -10,6 +10,7 @@ import service.hobbyservice.dto.request.HobbyRequestDto;
 import service.hobbyservice.dto.response.HobbyResponseDto;
 import service.hobbyservice.service.HobbyCommonService;
 import service.hobbyservice.service.HobbyQueryService;
+import service.hobbyservice.service.TokenProviderService;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class HobbyController {
 
     private final HobbyCommonService hobbyCommonService;
     private final HobbyQueryService hobbyQueryService;
+    private final TokenProviderService tokenProviderService;
 
 
     @GetMapping("/health_check")
@@ -36,6 +38,7 @@ public class HobbyController {
             @PathVariable Long userId
 //            @RequestHeader("Authorization") String authorizationHeader
     ){
+//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
         System.out.println(hobbyRecordDto.getHobbyName());
         Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
 
@@ -49,6 +52,8 @@ public class HobbyController {
             @PathVariable Long userId
 //            @RequestHeader("Authorization") String authorizationHeader
     ){
+//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+
         Long routineId = hobbyCommonService.addHobbyRoutine(hobbyRoutineDto, userId);
 
         return BaseResponse.onSuccess(routineId);
@@ -62,6 +67,8 @@ public class HobbyController {
             // @RequestHeader("Authorization") String authorizationHeader
 
     ) {
+
+//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
         List<HobbyResponseDto.HobbyRoutineDto> hobbyRoutines = hobbyQueryService.getHobbyRoutineListByUserId(userId);
         return BaseResponse.onSuccess(hobbyRoutines);
     }
@@ -84,6 +91,8 @@ public class HobbyController {
             @RequestParam Integer year,
             @RequestParam Integer month
     ) {
+//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+
         // 로직 구현
         List<HobbyResponseDto.AlbumResponseDto> albums = hobbyCommonService.getAlbumList(year, month);
         return ResponseEntity.ok(albums);
