@@ -24,7 +24,7 @@ public class HobbyController {
 
     @GetMapping("/health_check")
     public String status(){
-        return "User Service is working fine";
+        return "hobby Service is working fine!";
     }
 
 
@@ -77,18 +77,18 @@ public class HobbyController {
         return BaseResponse.onSuccess(hobbyCommonService.updateHobbyRecord(hobbyRecordDto,recordId,userId));
     }
 
-//
-//    //Todo: 취미 기록 조회
-//    @GetMapping("/album-list")
-//    public ResponseEntity<List<HobbyResponseDto.AlbumResponseDto>> getAlbumList(
-//            @RequestParam Integer year,
-//            @RequestParam Integer month
-//    ) {
-//        // 로직 구현
-//        List<HobbyResponseDto.AlbumResponseDto> albums = albumService.getAlbumsByYearAndMonth(year, month);
-//        return ResponseEntity.ok(albums);
-//    }
-//
+
+    //Todo: 취미 기록 조회
+    @GetMapping("/album-list")
+    public ResponseEntity<List<HobbyResponseDto.AlbumResponseDto>> getAlbumList(
+            @RequestParam Integer year,
+            @RequestParam Integer month
+    ) {
+        // 로직 구현
+        List<HobbyResponseDto.AlbumResponseDto> albums = hobbyCommonService.getAlbumList(year, month);
+        return ResponseEntity.ok(albums);
+    }
+
 
 
 

@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import service.hobbyservice.entity.HobbyRoutine;
 
 import java.time.LocalDate;
@@ -33,9 +34,15 @@ public class HobbyResponseDto {
         private String hobbyBody;
     }
 
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
     public static class AlbumResponseDto{
         private LocalDate date;
-        private String photo;
-        private String hobbyBody;
+        private String photoUrl;
+        private String recordBody;
+        private Long recordId;
+
     }
 }

@@ -12,6 +12,9 @@ import service.hobbyservice.entity.HobbyRoutine;
 import service.hobbyservice.repository.HobbyRecordRepository;
 import service.hobbyservice.repository.HobbyRoutineRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static service.hobbyservice.converter.toDto.toDto.toHobbyRecordDto;
 
 @RequiredArgsConstructor
@@ -45,7 +48,10 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
     public Long addHobbyRoutine(HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto, Long userId) {
 
         // 추가하려고 하는 취미 루틴 조회해보기
-        HobbyRoutine findHobbyRoutine = hobbyQueryService.findByHobbyNameAndUserId(hobbyRoutineDto.getHobbyName(), userId);
+        System.out.println(hobbyRoutineDto.getHobbyName());
+
+        //취미가 있는지 조회하기
+        HobbyRoutine findHobbyRoutine = hobbyQueryService.findByHobbyNameAndUserIdOrNull(hobbyRoutineDto.getHobbyName(), userId);
 
         //이미 존재하는지 확인해보기
         if (findHobbyRoutine != null) {
@@ -80,5 +86,20 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
 
 
 //    Todo: 앨범리스트 조회
+    @Override
+    public List<HobbyResponseDto.AlbumResponseDto> getAlbumList(int year, int month) {
+    return hobbyRecordRepository.findByYearAndMonth(year, month)
+            .stream()
+            .map(hobbyRecord -> HobbyResponseDto.AlbumResponseDto.builder()
+                    .date(hobbyRecord.getCreatedAt().toLocalDate())
+                    .photoUrl(hobbyRecord.getPhotoUrl())
+                    .recordBody(hobbyRecord.getRecordBody())
+                    .recordId(hobbyRecord.getId())
+                    .build())
+            .collect(Collectors.toList());
+    }
 
 }
+
+
+

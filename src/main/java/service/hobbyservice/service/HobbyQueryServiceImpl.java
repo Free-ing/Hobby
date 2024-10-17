@@ -10,7 +10,6 @@ import service.hobbyservice.repository.HobbyRecordRepository;
 import service.hobbyservice.repository.HobbyRoutineRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -40,4 +39,9 @@ public class HobbyQueryServiceImpl implements HobbyQueryService {
         return hobbyRoutineRepository.findByUserId(userId);
     }
 
-}
+
+    @Override
+    public HobbyRoutine findByHobbyNameAndUserIdOrNull(String hobbyName, Long userId) {
+        return hobbyRoutineRepository.findByHobbyNameAndUserIdOrNull(hobbyName,userId);
+        }
+    }

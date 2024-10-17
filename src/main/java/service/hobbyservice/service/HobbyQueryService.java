@@ -13,5 +13,5 @@ public interface HobbyQueryService {
     List<HobbyResponseDto.HobbyRoutineDto> getHobbyRoutineListByUserId(Long userId);
 
 
-
+    HobbyRoutine findByHobbyNameAndUserIdOrNull(String hobbyName, Long userId);
 }
