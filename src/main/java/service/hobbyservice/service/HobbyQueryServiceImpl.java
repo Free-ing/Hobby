@@ -10,6 +10,7 @@ import service.hobbyservice.repository.HobbyRecordRepository;
 import service.hobbyservice.repository.HobbyRoutineRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -44,4 +45,18 @@ public class HobbyQueryServiceImpl implements HobbyQueryService {
     public HobbyRoutine findByHobbyNameAndUserIdOrNull(String hobbyName, Long userId) {
         return hobbyRoutineRepository.findByHobbyNameAndUserIdOrNull(hobbyName,userId);
         }
+
+    //    Todo: 앨범리스트 조회
+    @Override
+    public List<HobbyResponseDto.AlbumResponseDto> getAlbumList(int year, int month, Long userId) {
+        return hobbyRecordRepository.findByYearAndMonth(year, month, userId)
+                .stream()
+                .map(hobbyRecord -> HobbyResponseDto.AlbumResponseDto.builder()
+                        .date(hobbyRecord.getCreatedAt().toLocalDate())
+                        .photoUrl(hobbyRecord.getPhotoUrl())
+                        .recordBody(hobbyRecord.getRecordBody())
+                        .recordId(hobbyRecord.getId())
+                        .build())
+                .collect(Collectors.toList());
+    }
     }

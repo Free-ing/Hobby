@@ -86,19 +86,7 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
     }
 
 
-//    Todo: 앨범리스트 조회
-    @Override
-    public List<HobbyResponseDto.AlbumResponseDto> getAlbumList(int year, int month) {
-    return hobbyRecordRepository.findByYearAndMonth(year, month)
-            .stream()
-            .map(hobbyRecord -> HobbyResponseDto.AlbumResponseDto.builder()
-                    .date(hobbyRecord.getCreatedAt().toLocalDate())
-                    .photoUrl(hobbyRecord.getPhotoUrl())
-                    .recordBody(hobbyRecord.getRecordBody())
-                    .recordId(hobbyRecord.getId())
-                    .build())
-            .collect(Collectors.toList());
-    }
+
 
 }
 

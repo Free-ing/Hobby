@@ -14,4 +14,7 @@ public interface HobbyQueryService {
 
 
     HobbyRoutine findByHobbyNameAndUserIdOrNull(String hobbyName, Long userId);
+
+    //    Todo: 앨범리스트 조회
+    List<HobbyResponseDto.AlbumResponseDto> getAlbumList(int year, int month, Long userId);
 }

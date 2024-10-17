@@ -15,6 +15,5 @@ public interface HobbyCommonService {
     //Todo: 취미 기록 수정
     HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long recordId, Long userId);
 
-    //    Todo: 앨범리스트 조회
-    List<HobbyResponseDto.AlbumResponseDto> getAlbumList(int year, int month);
+
 }
