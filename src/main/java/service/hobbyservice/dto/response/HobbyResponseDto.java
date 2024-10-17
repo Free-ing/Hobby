@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import service.hobbyservice.entity.HobbyRoutine;
 
+import java.time.LocalDate;
+
 public class HobbyResponseDto {
 
 
@@ -28,6 +30,12 @@ public class HobbyResponseDto {
 
         private String photoUrl;
 
+        private String hobbyBody;
+    }
+
+    public static class AlbumResponseDto{
+        private LocalDate date;
+        private String photo;
         private String hobbyBody;
     }
 }

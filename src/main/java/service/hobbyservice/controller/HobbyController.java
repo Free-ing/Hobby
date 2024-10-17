@@ -21,6 +21,14 @@ public class HobbyController {
     private final HobbyCommonService hobbyCommonService;
     private final HobbyQueryService hobbyQueryService;
 
+
+    @GetMapping("/health_check")
+    public String status(){
+        return "User Service is working fine";
+    }
+
+
+
     //Todo: 취미 기록하기
     @PostMapping("/record/{userId}")
     public BaseResponse<Long> recordHobby(
@@ -59,17 +67,30 @@ public class HobbyController {
     }
 
     //Todo: 취미 기록 수정
-    @PutMapping("/record/{recordId}")
+    @PutMapping("/record/{recordId}/{userId}")
     public BaseResponse<HobbyResponseDto.HobbyRecordDto> updateRoutineRecord(
             @PathVariable Long recordId,
             @PathVariable Long userId,
             @RequestBody @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto
             // @RequestHeader("Authorization") String authorizationHeader
     ){
-        return BaseResponse.onSuccess(hobbyCommonService.updateHobbyRecord(hobbyRecordDto,recordId));
-
-
+        return BaseResponse.onSuccess(hobbyCommonService.updateHobbyRecord(hobbyRecordDto,recordId,userId));
     }
+
+//
+//    //Todo: 취미 기록 조회
+//    @GetMapping("/album-list")
+//    public ResponseEntity<List<HobbyResponseDto.AlbumResponseDto>> getAlbumList(
+//            @RequestParam Integer year,
+//            @RequestParam Integer month
+//    ) {
+//        // 로직 구현
+//        List<HobbyResponseDto.AlbumResponseDto> albums = albumService.getAlbumsByYearAndMonth(year, month);
+//        return ResponseEntity.ok(albums);
+//    }
+//
+
+
 
 
 }

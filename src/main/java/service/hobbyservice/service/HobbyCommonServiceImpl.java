@@ -60,14 +60,14 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
 
     //Todo: 취미 기록 수정
     @Override
-    public HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long recordId){
+    public HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long recordId,Long userId){
 
         //취미 기록 불러오기
         HobbyRecord hobbyRecord = hobbyRecordRepository.findById(recordId)
                 .orElseThrow(() -> new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_NOT_FOUND));
 
         // 사용자가 원하는 취미 루틴 불러오기
-        HobbyRoutine hobbyRoutine = hobbyRoutineRepository.findByHobbyNameAndUserId(hobbyRecordDto.getHobbyName(), hobbyRecord.getUserId())
+        HobbyRoutine hobbyRoutine = hobbyRoutineRepository.findByHobbyNameAndUserId(hobbyRecordDto.getHobbyName(), userId)
                 .orElseThrow(() -> new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_NOT_FOUND));
 
         //취미 업데이트
@@ -77,4 +77,8 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
         return toHobbyRecordDto(hobbyRecord, hobbyRoutine);
 
     }
+
+
+//    Todo: 앨범리스트 조회
+
 }
