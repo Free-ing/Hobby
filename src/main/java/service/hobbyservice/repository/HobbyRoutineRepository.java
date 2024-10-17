@@ -12,10 +12,12 @@ import java.util.Optional;
 
 @Repository
 public interface HobbyRoutineRepository extends JpaRepository<HobbyRoutine,Long>{
-    HobbyRoutine findByHobbyNameAndUserId(String hobbyName, Long userId);
+    Optional<HobbyRoutine> findByHobbyNameAndUserId(String hobbyName, Long userId);
 
-    @Query("SELECT new service.hobbyservice.dto.response.HobbyResponseDto$HobbyRoutineDto(hr.id,hr.hobbyName, hr.imageUrl) FROM HobbyRoutine hr WHERE hr.userId = :userId")
+    @Query("SELECT new service.hobbyservice.dto.response.HobbyResponseDto$HobbyRoutineDto(hr.hobbyName, hr.imageUrl) FROM HobbyRoutine hr WHERE hr.userId = :userId")
     List<HobbyResponseDto.HobbyRoutineDto> findByUserId(@Param("userId") Long userId);
+
+//    Optional<HobbyRoutine> findByIdAndUserId(Long id, Long userId);
 
 //    @Query("SELECT new service.hobbyservice.dto.response.HobbyResponseDto$HobbyRoutineDto(hr.id, hr.hobbyName, hr.imageUrl) FROM HobbyRoutine hr WHERE hr.userId = :userId")
 //    List<HobbyResponseDto.HobbyRoutineDto> findByUserId(@Param("userId") Long userId);

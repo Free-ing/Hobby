@@ -22,8 +22,8 @@ public class HobbyQueryServiceImpl implements HobbyQueryService {
     //Todo: 취미와 user의 id로 취미 루틴 찾기
     @Override
     public HobbyRoutine findByHobbyNameAndUserId(String hobbyName, Long userId) {
-        return hobbyRoutineRepository.findByHobbyNameAndUserId(hobbyName, userId);
-//                .orElseThrow(() -> new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_NOT_FOUND));
+        return hobbyRoutineRepository.findByHobbyNameAndUserId(hobbyName, userId)
+                .orElseThrow(() -> new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_NOT_FOUND));
     }
 
     //Todo: userId로 회원의 취미 루틴 LIst 조회

@@ -28,6 +28,6 @@ public class HobbyResponseDto {
 
         private String photoUrl;
 
-        private String explanation;
+        private String hobbyBody;
     }
 }

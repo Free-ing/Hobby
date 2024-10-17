@@ -59,14 +59,14 @@ public class HobbyController {
     }
 
     //Todo: 취미 기록 수정
-    @PutMapping("/record/{recordId}/{userId}")
-    public BaseResponse<> updateRoutineRecord(
+    @PutMapping("/record/{recordId}")
+    public BaseResponse<HobbyResponseDto.HobbyRecordDto> updateRoutineRecord(
             @PathVariable Long recordId,
             @PathVariable Long userId,
             @RequestBody @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto
             // @RequestHeader("Authorization") String authorizationHeader
     ){
-
+        return BaseResponse.onSuccess(hobbyCommonService.updateHobbyRecord(hobbyRecordDto,recordId));
 
 
     }

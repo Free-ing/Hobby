@@ -13,7 +13,6 @@ import service.hobbyservice.repository.HobbyRecordRepository;
 import service.hobbyservice.repository.HobbyRoutineRepository;
 
 import static service.hobbyservice.converter.toDto.toDto.toHobbyRecordDto;
-import static service.hobbyservice.converter.toEntity.HobbyConverter.toHobbyRecordDto;
 
 @RequiredArgsConstructor
 @Service
@@ -60,14 +59,16 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
     }
 
     //Todo: 취미 기록 수정
-    public HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long recordId, Long hobbyRoutineId){
+    @Override
+    public HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long recordId){
 
         //취미 기록 불러오기
         HobbyRecord hobbyRecord = hobbyRecordRepository.findById(recordId)
                 .orElseThrow(() -> new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_NOT_FOUND));
 
         // 사용자가 원하는 취미 루틴 불러오기
-        HobbyRoutine hobbyRoutine = hobbyRoutineRepository.findById(hobbyRoutineId).orElseThrow(() -> new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_NOT_FOUND));
+        HobbyRoutine hobbyRoutine = hobbyRoutineRepository.findByHobbyNameAndUserId(hobbyRecordDto.getHobbyName(), hobbyRecord.getUserId())
+                .orElseThrow(() -> new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_NOT_FOUND));
 
         //취미 업데이트
         hobbyRecord.updateRecord(hobbyRoutine,hobbyRecordDto.getHobbyBody(),hobbyRecordDto.getPhotoUrl());
