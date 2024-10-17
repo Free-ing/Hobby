@@ -42,7 +42,7 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
           IMAGE_TAG: latest
         run: |
-          # 이미지 빌드
+          # 이미지 빌드임
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           
           # ECR로 푸시 (기존 이미지 덮어쓰기)
