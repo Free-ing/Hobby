@@ -49,8 +49,18 @@ jobs:
           echo "이미지가 성공적으로 업데이트되었습니다: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       - name: 이전 이미지 정리
+        env:
+          ECR_REGISTRY: ${{ secrets.AWS_ECR_REGISTRY }}
+          ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
+          IMAGE_TAG: latest
         run: |
           MANIFEST=$(aws ecr batch-get-image --repository-name $ECR_REPOSITORY --image-ids imageTag=$IMAGE_TAG --query 'images[].imageManifest' --output text)
-          aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids imageTag=$IMAGE_TAG
+          if [ ! -z "$MANIFEST" ]; then
+            aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids imageTag=$IMAGE_TAG
+            echo "이전 이미지가 성공적으로 삭제되었습니다."
+          else
+            echo "삭제할 이전 이미지가 없습니다."
+          fi
+
       - name: application.yml 파일 제거
         run: rm -f src/main/resources/application.yml
