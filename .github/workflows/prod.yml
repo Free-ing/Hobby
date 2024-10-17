@@ -34,14 +34,14 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: 기존 이미지 삭제
-        env:
-          ECR_REGISTRY: ${{ secrets.AWS_ECR_REGISTRY }}
-          ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
-          IMAGE_TAG: hobby-service
-        run: |
-          # 태그가 있는 이미지 삭제
-          aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids imageTag=$IMAGE_TAG || true
+#      - name: 기존 이미지 삭제
+#        env:
+#          ECR_REGISTRY: ${{ secrets.AWS_ECR_REGISTRY }}
+#          ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
+#          IMAGE_TAG: hobby-service
+#        run: |
+#          # 태그가 있는 이미지 삭제
+#          aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids imageTag=$IMAGE_TAG || true
 
       - name: 이미지 빌드 및 ECR 업데이트
         env:
@@ -49,6 +49,9 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
           IMAGE_TAG: hobby-service
         run: |
+          # 태그가 있는 이미지 삭제
+          aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids imageTag=$IMAGE_TAG || true
+          
           # 이미지 빌드
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           
