@@ -20,10 +20,6 @@ jobs:
           mkdir -p src/main/resources
           echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
 
-      - name: 테스트용 application.yml 생성
-        run: |
-          mkdir -p src/test/resources
-          echo "${{ secrets.TEST_APPLICATION_YML }}" > src/test/resources/application.yml
 
       - name: Gradle 빌드
         run: |
