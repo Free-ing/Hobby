@@ -41,6 +41,7 @@ public class HobbyResponseDto {
     @Builder
     public static class AlbumResponseDto{
         private LocalDate date;
+        private String hobbyName;
         private String photoUrl;
         private String recordBody;
         private Long recordId;

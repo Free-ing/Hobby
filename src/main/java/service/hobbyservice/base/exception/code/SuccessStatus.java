@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum SuccessStatus implements BaseSuccessCodeInterface {
     // For test
-    _OK(HttpStatus.OK, "COMMON_200", "요청 처리에 성공하였습니다.")
-    ;
+    _OK(HttpStatus.OK, "COMMON_200", "요청 처리에 성공하였습니다."),
+    _FAIL(HttpStatus.OK, "FAIL_400", "요청 처리에 실패하였습니다.");
 
     private final HttpStatus httpStatus;
     private final boolean isSuccess = true;

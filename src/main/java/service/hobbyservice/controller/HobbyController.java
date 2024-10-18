@@ -1,17 +1,22 @@
 package service.hobbyservice.controller;
 
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 import service.hobbyservice.base.BaseResponse;
+import service.hobbyservice.base.exception.code.RestApiException;
+import service.hobbyservice.base.exception.code.RoutineErrorStatus;
 import service.hobbyservice.dto.request.HobbyRequestDto;
 import service.hobbyservice.dto.response.HobbyResponseDto;
 import service.hobbyservice.service.HobbyCommonService;
 import service.hobbyservice.service.HobbyQueryService;
+import service.hobbyservice.service.ImageService;
 import service.hobbyservice.service.TokenProviderService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -22,6 +27,8 @@ public class HobbyController {
     private final HobbyCommonService hobbyCommonService;
     private final HobbyQueryService hobbyQueryService;
     private final TokenProviderService tokenProviderService;
+    private final ImageService imageService;
+
 
 
     @GetMapping("/health_check")
@@ -31,19 +38,28 @@ public class HobbyController {
 
 
 
-    //Todo: 취미 기록하기
-    @PostMapping("/record/{userId}")
-    public BaseResponse<Long> recordHobby(
-            @RequestBody @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
+    @PostMapping(value = "/record/{userId}")
+    public BaseResponse recordHobby(
+            @RequestPart("hobbyRecord") @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
+            @RequestPart("file") MultipartFile file,
+//            @RequestParam(name="file", required = false) MultipartFile file,
             @PathVariable Long userId
-//            @RequestHeader("Authorization") String authorizationHeader.
+    ) {
+        System.out.println(file.getOriginalFilename());
+        try {
+            // 이미지 업로드 및 URL 받기
+            String imageUrl = imageService.imageUpload(file);
 
-    ){
-//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
-        System.out.println(hobbyRecordDto.getHobbyName());
-        Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
+            // hobbyRecordDto에 이미지 URL 설정
+            hobbyRecordDto.setPhotoUrl(imageUrl);
 
-        return BaseResponse.onSuccess(recordId);
+            // 취미 기록 생성
+            Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
+
+            return BaseResponse.onSuccess(recordId);
+        } catch (IOException e) {
+            return BaseResponse.onFail("실패하였습니다.");
+        }
     }
 
     //Todo: 루틴 추가하기

@@ -33,9 +33,14 @@ public class ImageService {
     private String localLocation = "로컬환경경로";
 
     // 이미지 업로드를 처리하는 메서드
-    public String imageUpload(MultipartRequest request) throws IOException {
+    public String imageUpload(MultipartFile file) throws IOException {
+
         // 클라이언트로부터 전송된 파일을 가져옴
-        MultipartFile file = request.getFile("upload");
+        if (file == null || file.isEmpty()) {
+            throw new IOException("파일이 없습니다.");
+        }
+        //        // 클라이언트로부터 전송된 파일을 가져옴
+//        MultipartFile file = request.getFile("upload");
 
         // 원본 파일 이름 추출
         String fileName = file.getOriginalFilename();

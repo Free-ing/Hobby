@@ -2,6 +2,7 @@ package service.hobbyservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import service.hobbyservice.base.exception.code.RestApiException;
 import service.hobbyservice.base.exception.code.RoutineErrorStatus;
 import service.hobbyservice.dto.response.HobbyResponseDto;
@@ -50,11 +51,13 @@ public class HobbyQueryServiceImpl implements HobbyQueryService {
 
     //    Todo: 앨범리스트 조회
     @Override
+    @Transactional(readOnly = true)
     public List<HobbyResponseDto.AlbumResponseDto> getAlbumList(int year, int month, Long userId) {
         return hobbyRecordRepository.findByYearAndMonth(year, month, userId)
                 .stream()
                 .map(hobbyRecord -> HobbyResponseDto.AlbumResponseDto.builder()
                         .date(hobbyRecord.getCreatedAt().toLocalDate())
+                        .hobbyName(hobbyRecord.getHobbyRoutine().getHobbyName())
                         .photoUrl(hobbyRecord.getPhotoUrl())
                         .recordBody(hobbyRecord.getRecordBody())
                         .recordId(hobbyRecord.getId())

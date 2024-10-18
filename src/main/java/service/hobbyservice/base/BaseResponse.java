@@ -31,4 +31,8 @@ public class BaseResponse<T> {
         return new BaseResponse<>(false, code, message, data);
     }
 
+    public static <T> BaseResponse<T> onFail(T reult) {
+        return new BaseResponse<>(false, SuccessStatus._FAIL.getCode(), SuccessStatus._FAIL.getMessage(), reult);
+    }
+
 }

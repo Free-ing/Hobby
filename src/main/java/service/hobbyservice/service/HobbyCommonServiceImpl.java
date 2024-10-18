@@ -26,7 +26,6 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
     //Todo: 취미 기록하기
     public Long createHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long userId) {
 
-        System.out.println(hobbyRecordDto.getPhotoUrl());
         // 엔티티로 변환
         HobbyRecord hobbyRecord = HobbyConverter.toHobbyRecord(hobbyRecordDto, userId);
 

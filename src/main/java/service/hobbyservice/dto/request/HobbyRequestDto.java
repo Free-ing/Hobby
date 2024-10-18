@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import service.hobbyservice.entity.HobbyRoutine;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 
 public class HobbyRequestDto {
     @Getter
+    @Setter
     @AllArgsConstructor
     @Builder
     public static class hobbyRecordDto {
