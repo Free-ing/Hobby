@@ -39,7 +39,7 @@ public class HobbyQueryServiceImpl implements HobbyQueryService {
     //Todo: userId로 회원 취미 루틴 List 조회
     @Override
     public List<HobbyResponseDto.HobbyRoutineDto> getHobbyRoutineListByUserId(Long userId) {
-        return hobbyRoutineRepository.findByUserId(userId);
+        return hobbyRoutineRepository.findHobbyRoutineDtoByUserId(userId);
     }
 
 

@@ -21,4 +21,7 @@ public interface HobbyCommonService {
 
     //Todo: 취미 기록 삭제
     void deleteHobbyRecord(Long recordId, Long userId);
+
+    //Todo: 회원의 모든 취미 기록 삭제
+    void deleteHobbyData(Long userId);
 }

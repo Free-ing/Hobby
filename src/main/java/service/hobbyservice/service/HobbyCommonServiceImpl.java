@@ -12,6 +12,8 @@ import service.hobbyservice.entity.HobbyRoutine;
 import service.hobbyservice.repository.HobbyRecordRepository;
 import service.hobbyservice.repository.HobbyRoutineRepository;
 
+import java.util.List;
+
 import static service.hobbyservice.converter.toDto.toDto.toHobbyRecordDto;
 
 @RequiredArgsConstructor
@@ -97,6 +99,15 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
                 .orElseThrow(() -> new RestApiException(RoutineErrorStatus.USER_CANT_DELETE));
 
         hobbyRecordRepository.delete(hobbyRecord);
+    }
+
+    //Todo: 회원의 모든 취미 기록 삭제
+    @Override
+    public void deleteHobbyData(Long userId){
+        List<HobbyRoutine> hobbyRoutineList=  hobbyRoutineRepository.findByUserId(userId);
+
+        // 각 HobbyRoutine에 연관된 모든 HobbyRecord 삭제
+        hobbyRoutineRepository.deleteAll(hobbyRoutineList);
     }
 
 
