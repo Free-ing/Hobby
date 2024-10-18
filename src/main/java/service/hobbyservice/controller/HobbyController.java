@@ -1,22 +1,17 @@
 package service.hobbyservice.controller;
 
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 import service.hobbyservice.base.BaseResponse;
-import service.hobbyservice.base.exception.code.RestApiException;
-import service.hobbyservice.base.exception.code.RoutineErrorStatus;
 import service.hobbyservice.dto.request.HobbyRequestDto;
 import service.hobbyservice.dto.response.HobbyResponseDto;
 import service.hobbyservice.service.HobbyCommonService;
 import service.hobbyservice.service.HobbyQueryService;
-import service.hobbyservice.service.ImageService;
 import service.hobbyservice.service.TokenProviderService;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,8 +22,6 @@ public class HobbyController {
     private final HobbyCommonService hobbyCommonService;
     private final HobbyQueryService hobbyQueryService;
     private final TokenProviderService tokenProviderService;
-    private final ImageService imageService;
-
 
 
     @GetMapping("/health_check")
@@ -38,40 +31,19 @@ public class HobbyController {
 
 
 
-//    @PostMapping(value = "/record/{userId}")
-//    public BaseResponse recordHobby(
-//            @RequestPart("hobbyRecord") @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
-////            @RequestPart("file") MultipartFile file,
-////            @RequestParam(name="file", required = false) MultipartFile file,
-//            @PathVariable Long userId
-//    ) {
-//        System.out.println(file.getOriginalFilename());
-//        try {
-//            // 이미지 업로드 및 URL 받기
-//            String imageUrl = imageService.imageUpload(file);
-//
-//            // hobbyRecordDto에 이미지 URL 설정
-//            hobbyRecordDto.setPhotoUrl(imageUrl);
-//
-//            // 취미 기록 생성
-//            Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
-//
-//            return BaseResponse.onSuccess(recordId);
-//        } catch (IOException e) {
-//            return BaseResponse.onFail("실패하였습니다.");
-//        }
-//    }
-
-    @PostMapping(value = "/record/a/{userId}")
-    public BaseResponse recordHobby(
-            @RequestPart("hobbyRecord") @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
+    //Todo: 취미 기록하기
+    @PostMapping("/record/{userId}")
+    public BaseResponse<Long> recordHobby(
+            @RequestBody @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
             @PathVariable Long userId
-    ) {
-        System.out.println();
-            // 취미 기록 생성
-            Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
+//            @RequestHeader("Authorization") String authorizationHeader.
 
-            return BaseResponse.onSuccess(recordId);
+    ){
+//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+        System.out.println(hobbyRecordDto.getHobbyName());
+        Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
+
+        return BaseResponse.onSuccess(recordId);
     }
 
     //Todo: 루틴 추가하기
@@ -141,8 +113,8 @@ public class HobbyController {
     ){
         //        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
-      hobbyCommonService.deleteHobbyRoutine(routineId,userId);
-      return BaseResponse.onSuccess("성공적으로 취미 루틴을 삭제했습니다.");
+        hobbyCommonService.deleteHobbyRoutine(routineId,userId);
+        return BaseResponse.onSuccess("성공적으로 취미 루틴을 삭제했습니다.");
     }
 
     //Todo: 취미 기록 삭제
@@ -159,21 +131,20 @@ public class HobbyController {
         return BaseResponse.onSuccess("성공적으로 취미 기록을 삭제했습니다.");
     }
 
-    //Todo: 취미 프로그램 데이터 모두 삭제
+
+
+    //Todo: 취미 기록 삭제
     @DeleteMapping("/{userId}")
-    public BaseResponse<String> deleteHobbyData(
-            @PathVariable Long recordId,
+    public BaseResponse<String> deleteHobbyRecord(
             @PathVariable Long userId
             //@RequestHeader("Authorization") String authorizationHeader
 
     ){
         //        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
+        hobbyCommonService.deleteHobbyData(userId);
         return BaseResponse.onSuccess("성공적으로 취미 기록을 삭제했습니다.");
     }
 
 
-
 }
-
-
