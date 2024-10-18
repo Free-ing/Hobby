@@ -131,6 +131,20 @@ public class HobbyController {
         return BaseResponse.onSuccess("성공적으로 취미 기록을 삭제했습니다.");
     }
 
+    //Todo: 취미 프로그램 데이터 모두 삭제
+    @DeleteMapping("/{userId}")
+    public BaseResponse<String> deleteHobbyData(
+            @PathVariable Long recordId,
+            @PathVariable Long userId
+            //@RequestHeader("Authorization") String authorizationHeader
+
+    ){
+        //        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+
+        hobbyCommonService.deleteHobbyRecord(recordId,userId);
+        return BaseResponse.onSuccess("성공적으로 취미 기록을 삭제했습니다.");
+    }
+
 
 
 }
