@@ -67,7 +67,7 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
 
     //Todo: 취미 기록 수정
     @Override
-    public HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long recordId,Long userId){
+    public HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto,String imageUrl,Long recordId,Long userId){
 
         //취미 기록 불러오기
         HobbyRecord hobbyRecord = hobbyRecordRepository.findById(recordId)
@@ -78,7 +78,7 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
                 .orElseThrow(() -> new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_NOT_FOUND));
 
         //취미 업데이트
-        hobbyRecord.updateRecord(hobbyRoutine,hobbyRecordDto.getHobbyBody(),hobbyRecordDto.getPhotoUrl());
+        hobbyRecord.updateRecord(hobbyRoutine,hobbyRecordDto.getHobbyBody(), imageUrl);
 
         //취미 반환
         return toHobbyRecordDto(hobbyRecord, hobbyRoutine);

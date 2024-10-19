@@ -95,15 +95,24 @@ public class HobbyController {
     }
 
     //Todo: 취미 기록 수정
-    @PutMapping("/record/{recordId}")
+    @PutMapping(value =  "/record/{recordId}/{userId}" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse<HobbyResponseDto.HobbyRecordDto> updateRoutineRecord(
+            @RequestPart @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
+            @RequestParam MultipartFile file,
             @PathVariable Long recordId,
-//            @PathVariable Long userId,
-            @RequestBody @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
-             @RequestHeader("Authorization") String authorizationHeader
+            @PathVariable Long userId
+//            @RequestHeader("Authorization") String authorizationHeader
     ){
-        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
-        return BaseResponse.onSuccess(hobbyCommonService.updateHobbyRecord(hobbyRecordDto,recordId,userId));
+//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+
+        String imageUrl;
+
+        if (file.isEmpty()){
+            imageUrl = null;
+        }else{
+            imageUrl = imageUploadService.uploadImage(file);
+        }
+        return BaseResponse.onSuccess(hobbyCommonService.updateHobbyRecord(hobbyRecordDto,imageUrl,recordId,userId));
     }
 
 
@@ -166,23 +175,6 @@ public class HobbyController {
         return BaseResponse.onSuccess("성공적으로 취미 기록을 삭제했습니다.");
     }
 
-
-//
-////    //Todo: 취미 루틴 수정(사진, 취미이름)
-//    @PatchMapping(value = "/routine/{routineId}/{userId}",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public BaseResponse updateHobbyRoutine(
-//            @RequestPart HobbyRequestDto.hobbyRoutineUpdateDto hobbyRoutineUpdateDto,
-//            @RequestParam MultipartFile file,
-//            @PathVariable Long routineId,
-//            @PathVariable Long userId
-//    ){
-//        String imageUrl = imageUploadService.uploadImage(file);
-//
-//        // hobbyRecordDto에 이미지 URL 설정
-//        hobbyCommonService.updateHobbyRoutine(hobbyRoutineUpdateDto, imageUrl ,routineId, userId);
-//
-//        return BaseResponse.onSuccess("성공적으로 취미를 수정하였습니다.");
-//    }
 
 
     //Todo: 취미 루틴 수정(사진, 취미이름)

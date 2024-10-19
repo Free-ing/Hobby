@@ -13,8 +13,7 @@ public interface HobbyCommonService {
     Long addHobbyRoutine(HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto, Long userId);
 
     //Todo: 취미 기록 수정
-    HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long recordId, Long userId);
-
+    HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto,String imageUrl ,Long recordId, Long userId);
 
     //Todo: 취미 루틴 삭제
     void deleteHobbyRoutine(Long routineId, Long userId);
