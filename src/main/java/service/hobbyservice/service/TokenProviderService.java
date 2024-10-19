@@ -13,24 +13,25 @@ import java.security.Key;
 @Service
 public class TokenProviderService {
 
-    private final String secretKey;
-
-    public TokenProviderService(@Value("${jwt.secret}") String secretKey) {
-        this.secretKey = secretKey;
-    }
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
     private Key getSigningKey() {
-        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public Long getUserIdFromToken(String token) {
+        // "Bearer " 접두사 제거
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
         return claims.get("userId", Long.class);
     }
 }

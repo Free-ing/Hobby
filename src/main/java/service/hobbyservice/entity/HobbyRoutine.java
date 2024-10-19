@@ -10,6 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "HobbyRoutine")
 public class HobbyRoutine extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
