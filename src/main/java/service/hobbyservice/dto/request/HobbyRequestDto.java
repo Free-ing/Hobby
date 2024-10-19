@@ -25,7 +25,6 @@ public class HobbyRequestDto {
 
     }
 
-
     @Getter
     @AllArgsConstructor
     @Builder
@@ -37,6 +36,15 @@ public class HobbyRequestDto {
         private String imageUrl;
 
         private String explanation;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    @Setter
+    public static class hobbyRoutineUpdate{
+        @NotEmpty(message = "취미의 이름을 정해주세요.")
+        private String hobbyName;
     }
 
 

@@ -1,6 +1,7 @@
 package service.hobbyservice.controller;
 
 import jakarta.validation.Valid;
+import jakarta.ws.rs.PATCH;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import service.hobbyservice.dto.request.ImageUploadResponseDto;
 import service.hobbyservice.dto.response.HobbyResponseDto;
 import service.hobbyservice.service.*;
 
+import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.util.List;
 
@@ -80,14 +82,14 @@ public class HobbyController {
 
 
     //Todo: 회원의 취미 루틴 조회
-    @GetMapping("/routine-list")
+    @GetMapping("/routine-list/{userId}")
     public BaseResponse<List<HobbyResponseDto.HobbyRoutineDto>> getHobbyRoutinesByUserId(
-//            @PathVariable Long userId,
-             @RequestHeader("Authorization") String authorizationHeader
+            @PathVariable Long userId
+//             @RequestHeader("Authorization") String authorizationHeader
 
     ) {
-        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
-        System.out.println("userId:"+userId);
+//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+
         List<HobbyResponseDto.HobbyRoutineDto> hobbyRoutines = hobbyQueryService.getHobbyRoutineListByUserId(userId);
         return BaseResponse.onSuccess(hobbyRoutines);
     }
@@ -165,5 +167,42 @@ public class HobbyController {
     }
 
 
+//
+////    //Todo: 취미 루틴 수정(사진, 취미이름)
+//    @PatchMapping(value = "/routine/{routineId}/{userId}",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public BaseResponse updateHobbyRoutine(
+//            @RequestPart HobbyRequestDto.hobbyRoutineUpdateDto hobbyRoutineUpdateDto,
+//            @RequestParam MultipartFile file,
+//            @PathVariable Long routineId,
+//            @PathVariable Long userId
+//    ){
+//        String imageUrl = imageUploadService.uploadImage(file);
+//
+//        // hobbyRecordDto에 이미지 URL 설정
+//        hobbyCommonService.updateHobbyRoutine(hobbyRoutineUpdateDto, imageUrl ,routineId, userId);
+//
+//        return BaseResponse.onSuccess("성공적으로 취미를 수정하였습니다.");
+//    }
+
+
+    //Todo: 취미 루틴 수정(사진, 취미이름)
+    @PatchMapping(value = "/routine/{routineId}/{userId}",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public BaseResponse updateHobbyRoutine(
+            @RequestPart @Valid HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto,
+            @RequestParam MultipartFile file,
+            @PathVariable Long routineId,
+            @PathVariable Long userId
+    ){
+        String imageUrl;
+        if (file.isEmpty()){
+            imageUrl = null;
+        }else{
+            imageUrl = imageUploadService.uploadImage(file);
+        }
+        // hobbyRecordDto에 이미지 URL 설정
+        hobbyCommonService.updateHobbyRoutine(hobbyRoutineDto, imageUrl ,routineId, userId);
+
+        return BaseResponse.onSuccess("성공적으로 취미를 수정하였습니다.");
+    }
 
 }

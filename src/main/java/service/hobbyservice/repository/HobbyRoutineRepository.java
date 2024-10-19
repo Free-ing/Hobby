@@ -20,7 +20,8 @@ public interface HobbyRoutineRepository extends JpaRepository<HobbyRoutine,Long>
     @Query("SELECT new service.hobbyservice.dto.response.HobbyResponseDto$HobbyRoutineDto(hr.hobbyName, hr.imageUrl, hr.id) FROM HobbyRoutine hr WHERE hr.userId = :userId")
     List<HobbyResponseDto.HobbyRoutineDto> findHobbyRoutineDtoByUserId(@Param("userId") Long userId);
 
-    List<HobbyRoutine> findByUserId(Long userId);
+    @Query("SELECT hr FROM HobbyRoutine hr WHERE hr.userId =: userId")
+    List<HobbyRoutine> findHobbyRoutineLIstByUserId(Long userId);
 
     //routineId와 userId로 특정 루틴 조회(검증을 위해 이 두개로 조회함)
     Optional<HobbyRoutine> findByIdAndUserId(Long Id, Long userId);

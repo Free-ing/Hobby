@@ -2,6 +2,7 @@ package service.hobbyservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import service.hobbyservice.base.exception.code.RestApiException;
 import service.hobbyservice.base.exception.code.RoutineErrorStatus;
 import service.hobbyservice.converter.toEntity.HobbyConverter;
@@ -18,6 +19,7 @@ import static service.hobbyservice.converter.toDto.toDto.toHobbyRecordDto;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class HobbyCommonServiceImpl implements HobbyCommonService {
 
     private final HobbyQueryService hobbyQueryService;
@@ -104,13 +106,25 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
     //Todo: 회원의 모든 취미 기록 삭제
     @Override
     public void deleteHobbyData(Long userId){
-        List<HobbyRoutine> hobbyRoutineList=  hobbyRoutineRepository.findByUserId(userId);
+        List<HobbyRoutine> hobbyRoutineList=  hobbyRoutineRepository.findHobbyRoutineLIstByUserId(userId);
 
         // 각 HobbyRoutine에 연관된 모든 HobbyRecord 삭제
         hobbyRoutineRepository.deleteAll(hobbyRoutineList);
     }
 
 
+
+    //Todo: 회원의 취미 루틴 수정
+    @Override
+    public void updateHobbyRoutine(HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto, String imageUrl, Long routineId, Long userId){
+        //routineId 와 userId로 취미 루틴 찾기
+        System.out.println("이미지 url:" + imageUrl);
+        HobbyRoutine hobbyRoutine = hobbyRoutineRepository.findByIdAndUserId(routineId , userId)
+                .orElseThrow(()->new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_NOT_FOUND));
+
+        //업로드 하고자 하는 이미지가 있다면 이미지를 수정하고, 없다면 기존 이미지로 유지
+        hobbyRoutine.updateHobbyRoutine(hobbyRoutineDto.getHobbyName(), imageUrl);
+    }
 }
 
 

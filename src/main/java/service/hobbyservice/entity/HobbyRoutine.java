@@ -20,7 +20,6 @@ public class HobbyRoutine extends BaseEntity {
     private String hobbyName;
     private String explanation;
     private Long userId;
-    private Boolean status;
     private String imageUrl;
 
     @OneToMany(mappedBy = "hobbyRoutine", cascade = CascadeType.ALL)
@@ -31,6 +30,11 @@ public class HobbyRoutine extends BaseEntity {
         this.hobbyName = hobbyName;
         this.explanation = explanation;
         this.userId = userId;
+        this.imageUrl = imageUrl;
+    }
+
+    public void updateHobbyRoutine(String hobbyName, String imageUrl){
+        this.hobbyName = hobbyName;
         this.imageUrl = imageUrl;
     }
 }
