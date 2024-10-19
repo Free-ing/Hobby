@@ -35,7 +35,7 @@ public class HobbyController {
     }
 
 
-
+    //Todo: 취미 기록하기
     @PostMapping(value = "/record/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse<Long> uploadImage(
             @RequestParam("file") MultipartFile file,
@@ -56,42 +56,23 @@ public class HobbyController {
     }
 
 
-//    //Todo: 취미 기록하기
-//    @PostMapping(value = "/record/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ResponseEntity<Long> recordHobby(
-//            @RequestParam("file") MultipartFile file,
-//            @RequestPart @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
-////            @RequestHeader("Authorization") String authorizationHeader,
-//            @PathVariable Long userId
-//            ){
-////        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
-//        System.out.println(hobbyRecordDto.getHobbyName());
-//        System.out.println(file.getOriginalFilename());
-//        try {
-//            // 이미지 업로드 및 URL 받기
-//            String imageUrl = imageService.imageUpload(file);
-//
-//            // hobbyRecordDto에 이미지 URL 설정
-//            hobbyRecordDto.setPhotoUrl(imageUrl);
-//
-//            // 취미 기록 생성
-//            Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
-//
-//            return ResponseEntity.ok(recordId);
-//        } catch (IOException e) {
-//            throw new RuntimeException("업로드에 실패하였습니다.");
-//        }
-//    }
-
     //Todo: 루틴 추가하기
-    @PostMapping("/routine")
+    @PostMapping(value = "/routine/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse<Long> addHobbyRoutine(
-            @RequestBody @Valid HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto,
-//            @PathVariable Long userId
-            @RequestHeader("Authorization") String authorizationHeader
+            @RequestParam("file") MultipartFile file,
+            @RequestPart @Valid HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto,
+            @PathVariable Long userId
+//            @RequestHeader("Authorization") String authorizationHeader
     ){
-        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
+        String imageUrl = imageUploadService.uploadImage(file);
+
+        // hobbyRecordDto에 이미지 URL 설정
+        hobbyRoutineDto.setImageUrl(imageUrl);
+
+
+        //routine 생성
         Long routineId = hobbyCommonService.addHobbyRoutine(hobbyRoutineDto, userId);
 
         return BaseResponse.onSuccess(routineId);

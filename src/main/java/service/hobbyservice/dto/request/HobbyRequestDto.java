@@ -29,6 +29,7 @@ public class HobbyRequestDto {
     @Getter
     @AllArgsConstructor
     @Builder
+    @Setter
     public static class hobbyRoutineDto{
         @NotEmpty(message = "취미의 이름을 정해주세요.")
         private String hobbyName;
