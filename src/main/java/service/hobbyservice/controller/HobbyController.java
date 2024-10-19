@@ -11,11 +11,9 @@ import service.hobbyservice.dto.request.HobbyRequestDto;
 //import service.hobbyservice.dto.request.ImageUploadResponseDto;
 import service.hobbyservice.dto.request.ImageUploadResponseDto;
 import service.hobbyservice.dto.response.HobbyResponseDto;
-import service.hobbyservice.service.HobbyCommonService;
-import service.hobbyservice.service.HobbyQueryService;
-import service.hobbyservice.service.ImageUploadService;
-import service.hobbyservice.service.TokenProviderService;
+import service.hobbyservice.service.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,6 +25,8 @@ public class HobbyController {
     private final HobbyQueryService hobbyQueryService;
     private final TokenProviderService tokenProviderService;
     private final ImageUploadService imageUploadService;
+    private final ImageService imageService;
+
 
 
     @GetMapping("/health_check")
@@ -36,21 +36,52 @@ public class HobbyController {
 
 
 
-    //Todo: 취미 기록하기
-    @PostMapping("/record")
-    public BaseResponse<Long> recordHobby(
-            @RequestPart("hobbyRecordDto") @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
-//            @PathVariable Long userId,
+    @PostMapping(value = "/record/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public BaseResponse<Long> uploadImage(
             @RequestParam("file") MultipartFile file,
-            @RequestHeader("Authorization") String authorizationHeader
-    ){
-        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+            @RequestPart @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
+            @PathVariable Long userId
 
-        System.out.println(hobbyRecordDto.getHobbyName());
-        Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
+    ) throws IOException {
+            String imageUrl = imageUploadService.uploadImage(file);
 
-        return BaseResponse.onSuccess(recordId);
+            // hobbyRecordDto에 이미지 URL 설정
+            hobbyRecordDto.setPhotoUrl(imageUrl);
+
+            // 취미 기록 생성
+            Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
+
+            return BaseResponse.onSuccess(recordId);
+
     }
+
+
+//    //Todo: 취미 기록하기
+//    @PostMapping(value = "/record/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<Long> recordHobby(
+//            @RequestParam("file") MultipartFile file,
+//            @RequestPart @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
+////            @RequestHeader("Authorization") String authorizationHeader,
+//            @PathVariable Long userId
+//            ){
+////        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+//        System.out.println(hobbyRecordDto.getHobbyName());
+//        System.out.println(file.getOriginalFilename());
+//        try {
+//            // 이미지 업로드 및 URL 받기
+//            String imageUrl = imageService.imageUpload(file);
+//
+//            // hobbyRecordDto에 이미지 URL 설정
+//            hobbyRecordDto.setPhotoUrl(imageUrl);
+//
+//            // 취미 기록 생성
+//            Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
+//
+//            return ResponseEntity.ok(recordId);
+//        } catch (IOException e) {
+//            throw new RuntimeException("업로드에 실패하였습니다.");
+//        }
+//    }
 
     //Todo: 루틴 추가하기
     @PostMapping("/routine")
@@ -139,8 +170,7 @@ public class HobbyController {
     }
 
 
-
-    //Todo: 취미 기록 삭제
+    //Todo: 회원의 모든 취미 기록 삭제
     @DeleteMapping("/")
     public BaseResponse<String> deleteHobbyRecord(
 //            @PathVariable Long userId
@@ -151,13 +181,6 @@ public class HobbyController {
 
         hobbyCommonService.deleteHobbyData(userId);
         return BaseResponse.onSuccess("성공적으로 취미 기록을 삭제했습니다.");
-    }
-
-
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ImageUploadResponseDto> uploadImage(@RequestParam("file") MultipartFile file) {
-        String imageUrl = imageUploadService.uploadImage(file);
-        return ResponseEntity.ok(new ImageUploadResponseDto(imageUrl));
     }
 
 
