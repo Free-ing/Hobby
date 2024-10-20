@@ -1,6 +1,7 @@
 package service.hobbyservice.service;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.ChatClient;
 import org.springframework.ai.chat.ChatResponse;
@@ -8,9 +9,9 @@ import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.hobbyservice.dto.request.SurveyResultDto;
+import service.hobbyservice.dto.response.HobbyResponseDto;
 
 import java.util.List;
 
@@ -18,8 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OpenAiService {
     private final ChatClient chatClient;
-
-    public String generateHobbyRecommendations(SurveyResultDto.surveyResultDto surveyResult) {
+    private final ObjectMapper objectMapper;
+    public List<HobbyResponseDto.AiHobbyResponseDto> generateHobbyRecommendations(SurveyResultDto.surveyResultDto surveyResult) {
         String systemPromptContent = "사용자의 설문조사 결과를 바탕으로 4~8개의 취미 활동을 추천해야 합니다. " +
                 "1. 사용자의 선호도와 특성을 반영 " +
                 "3. 사용자의 스트레스 해소 방식과 예산을 고려. " +
@@ -39,14 +40,20 @@ public class OpenAiService {
                 String survey6 =surveyResult.getNewActivityPreference();
                 String survey7 =surveyResult.getBudget();
                 String survey = survey1 + survey2 + survey3 + survey4 + survey5 + survey6 + survey7;
-        String userMessageContent = String.format("설문조사 결과를 바탕으로 취미 활동을 추천: %s", survey);
+        String userMessageContent = String.format("설문조사 결과를 바탕으로 취미 활동 추천 이유를 명확하게 제시해줘: %s", survey);
 
         UserMessage userMessage = new UserMessage(userMessageContent);
 
         Prompt prompt = new Prompt(List.of(systemMessage, userMessage));
 
         ChatResponse response = chatClient.call(prompt);
+        String jsonResponse = response.getResult().getOutput().getContent();
 
-        return response.getResult().getOutput().getContent();
+        try {
+            HobbyResponseDto hobbyResponseDto = objectMapper.readValue(jsonResponse, HobbyResponseDto.class);
+            return hobbyResponseDto.getAiRecommendations();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to parse AI response", e);
+        }
     }
 }

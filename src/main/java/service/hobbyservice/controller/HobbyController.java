@@ -11,6 +11,7 @@ import service.hobbyservice.base.BaseResponse;
 import service.hobbyservice.dto.request.HobbyRequestDto;
 //import service.hobbyservice.dto.request.ImageUploadResponseDto;
 import service.hobbyservice.dto.request.ImageUploadResponseDto;
+import service.hobbyservice.dto.request.SurveyResultDto;
 import service.hobbyservice.dto.response.HobbyResponseDto;
 import service.hobbyservice.service.*;
 
@@ -28,7 +29,7 @@ public class HobbyController {
     private final TokenProviderService tokenProviderService;
     private final ImageUploadService imageUploadService;
     private final ImageService imageService;
-
+    private final OpenAiService openAiService;
 
 
     @GetMapping("/health_check")
@@ -195,6 +196,12 @@ public class HobbyController {
         hobbyCommonService.updateHobbyRoutine(hobbyRoutineDto, imageUrl ,routineId, userId);
 
         return BaseResponse.onSuccess("성공적으로 취미를 수정하였습니다.");
+    }
+
+    @PostMapping("/ai/recommend")
+    public BaseResponse generateResponse(@RequestBody SurveyResultDto.surveyResultDto surveyResultDto) {
+        List<HobbyResponseDto.AiHobbyResponseDto> recommendations = openAiService.generateHobbyRecommendations(surveyResultDto);
+        return BaseResponse.onSuccess(recommendations);
     }
 
 }

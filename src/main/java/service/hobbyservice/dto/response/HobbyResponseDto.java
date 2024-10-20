@@ -1,5 +1,6 @@
 package service.hobbyservice.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import service.hobbyservice.entity.HobbyRoutine;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class HobbyResponseDto {
 
@@ -45,6 +47,20 @@ public class HobbyResponseDto {
         private String photoUrl;
         private String recordBody;
         private Long recordId;
+
+    }
+
+    @JsonProperty("recommendations")
+    @Getter
+    private List<AiHobbyResponseDto> AiRecommendations;
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class AiHobbyResponseDto{
+        private String hobbyName;
+        private String explanation;
 
     }
 }
