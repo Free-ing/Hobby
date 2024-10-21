@@ -50,8 +50,9 @@ public class OpenAiService {
         String jsonResponse = response.getResult().getOutput().getContent();
 
         try {
-            HobbyResponseDto hobbyResponseDto = objectMapper.readValue(jsonResponse, HobbyResponseDto.class);
-            return hobbyResponseDto.getAiRecommendations();
+            // JSON 배열을 List<AiHobbyResponseDto>로 직접 파싱
+            return objectMapper.readValue(jsonResponse,
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, HobbyResponseDto.AiHobbyResponseDto.class));
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse AI response", e);
         }
