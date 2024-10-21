@@ -60,19 +60,18 @@ public class HobbyController {
 
 
     //Todo: 루틴 추가하기
-    @PostMapping(value = "/routine/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping("/routine/{userId}")
     public BaseResponse<Long> addHobbyRoutine(
-            @RequestParam("file") MultipartFile file,
-            @RequestPart @Valid HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto,
+            @RequestBody@Valid HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto,
             @PathVariable Long userId
 //            @RequestHeader("Authorization") String authorizationHeader
     ){
 //        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
-        String imageUrl = imageUploadService.uploadImage(file);
+//        String imageUrl = imageUploadService.uploadImage(file);
 
         // hobbyRecordDto에 이미지 URL 설정
-        hobbyRoutineDto.setImageUrl(imageUrl);
+        hobbyRoutineDto.setImageUrl(hobbyRoutineDto.getImageUrl());
 
 
         //routine 생성
@@ -198,6 +197,7 @@ public class HobbyController {
         return BaseResponse.onSuccess("성공적으로 취미를 수정하였습니다.");
     }
 
+    //TODO: AI 취미 추천 기능
     @PostMapping("/ai/recommend")
     public BaseResponse generateResponse(@RequestBody SurveyResultDto.surveyResultDto surveyResultDto) {
         List<HobbyResponseDto.AiHobbyResponseDto> recommendations = openAiService.generateHobbyRecommendations(surveyResultDto);

@@ -21,7 +21,7 @@ public class HobbyConverter {
     public static HobbyRoutine toHobbyRoutine(HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto,Long userId){
         return HobbyRoutine.builder()
                 .hobbyName(hobbyRoutineDto.getHobbyName())
-                .explanation(hobbyRoutineDto.getExplanation())
+//                .explanation(hobbyRoutineDto.getExplanation())
                 .imageUrl(hobbyRoutineDto.getImageUrl())
                 .userId(userId)
                 .build();

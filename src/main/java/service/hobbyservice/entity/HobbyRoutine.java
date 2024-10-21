@@ -18,7 +18,7 @@ public class HobbyRoutine extends BaseEntity {
 
     @Column(name =  "hobby_name")
     private String hobbyName;
-    private String explanation;
+//    private String explanation;
     private Long userId;
     private String imageUrl;
 
@@ -28,7 +28,7 @@ public class HobbyRoutine extends BaseEntity {
     @Builder
     public HobbyRoutine(String hobbyName, String explanation, Long userId, String imageUrl) {
         this.hobbyName = hobbyName;
-        this.explanation = explanation;
+//        this.explanation = explanation;
         this.userId = userId;
         this.imageUrl = imageUrl;
     }

@@ -35,7 +35,7 @@ public class HobbyRequestDto {
 
         private String imageUrl;
 
-        private String explanation;
+//        private String explanation;
     }
 
     @Getter
