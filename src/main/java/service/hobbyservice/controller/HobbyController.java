@@ -60,13 +60,13 @@ public class HobbyController {
 
 
     //Todo: 루틴 추가하기
-    @PostMapping("/routine/{userId}")
+    @PostMapping("/routine")
     public BaseResponse<Long> addHobbyRoutine(
             @RequestBody@Valid HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto,
-            @PathVariable Long userId
-//            @RequestHeader("Authorization") String authorizationHeader
+//            @PathVariable Long userId
+            @RequestHeader("Authorization") String authorizationHeader
     ){
-//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
 //        String imageUrl = imageUploadService.uploadImage(file);
 
@@ -82,28 +82,29 @@ public class HobbyController {
 
 
     //Todo: 회원의 취미 루틴 조회
-    @GetMapping("/routine-list/{userId}")
+    @GetMapping("/routine-list")
     public BaseResponse<List<HobbyResponseDto.HobbyRoutineDto>> getHobbyRoutinesByUserId(
-            @PathVariable Long userId
-//             @RequestHeader("Authorization") String authorizationHeader
+//            @PathVariable Long userId
+             @RequestHeader("Authorization") String authorizationHeader
 
     ) {
-//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
         List<HobbyResponseDto.HobbyRoutineDto> hobbyRoutines = hobbyQueryService.getHobbyRoutineListByUserId(userId);
+        System.out.println(hobbyRoutines);
         return BaseResponse.onSuccess(hobbyRoutines);
     }
 
     //Todo: 취미 기록 수정
-    @PutMapping(value =  "/record/{recordId}/{userId}" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value =  "/record/{recordId}" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse<HobbyResponseDto.HobbyRecordDto> updateRoutineRecord(
             @RequestPart @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
             @RequestParam MultipartFile file,
             @PathVariable Long recordId,
-            @PathVariable Long userId
-//            @RequestHeader("Authorization") String authorizationHeader
+//            @PathVariable Long userId
+            @RequestHeader("Authorization") String authorizationHeader
     ){
-//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
         String imageUrl;
 
@@ -148,7 +149,7 @@ public class HobbyController {
     }
 
     //Todo: 취미 기록 삭제
-    @DeleteMapping("/record/{recordId}/")
+    @DeleteMapping("/record/{recordId}")
     public BaseResponse<String> deleteHobbyRecord(
             @PathVariable Long recordId,
 //            @PathVariable Long userId
@@ -163,13 +164,13 @@ public class HobbyController {
 
 
     //Todo: 회원의 모든 취미 기록 삭제
-    @DeleteMapping("/")
+    @DeleteMapping("/userId")
     public BaseResponse<String> deleteHobbyRecord(
-//            @PathVariable Long userId
-            @RequestHeader("Authorization") String authorizationHeader
+            @PathVariable Long userId
+//            @RequestHeader("Authorization") String authorizationHeader
 
     ){
-        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
         hobbyCommonService.deleteHobbyData(userId);
         return BaseResponse.onSuccess("성공적으로 취미 기록을 삭제했습니다.");
@@ -178,13 +179,17 @@ public class HobbyController {
 
 
     //Todo: 취미 루틴 수정(사진, 취미이름)
-    @PatchMapping(value = "/routine/{routineId}/{userId}",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(value = "/routine/{routineId}",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse updateHobbyRoutine(
             @RequestPart @Valid HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto,
             @RequestParam MultipartFile file,
             @PathVariable Long routineId,
-            @PathVariable Long userId
+//            @PathVariable Long userId
+            @RequestHeader("Authorization") String authorizationHeader
+
     ){
+        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+
         String imageUrl;
         if (file.isEmpty()){
             imageUrl = null;
@@ -199,7 +204,12 @@ public class HobbyController {
 
     //TODO: AI 취미 추천 기능
     @PostMapping("/ai/recommend")
-    public BaseResponse generateResponse(@RequestBody SurveyResultDto.surveyResultDto surveyResultDto) {
+    public BaseResponse generateResponse(
+            @RequestBody SurveyResultDto.surveyResultDto surveyResultDto,
+            @RequestHeader("Authorization") String authorizationHeader
+
+    ) {
+        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
         List<HobbyResponseDto.AiHobbyResponseDto> recommendations = openAiService.generateHobbyRecommendations(surveyResultDto);
         return BaseResponse.onSuccess(recommendations);
     }
