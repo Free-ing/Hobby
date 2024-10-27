@@ -25,5 +25,5 @@ public interface HobbyCommonService {
     void deleteHobbyData(Long userId);
 
     //Todo: 회원의 취미 루틴 수정
-    void updateHobbyRoutine(HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto, String imageUrl, Long routineId, Long userId);
+    void updateHobbyRoutine(HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto, Long routineId, Long userId);
 }

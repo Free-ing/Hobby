@@ -40,8 +40,8 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     implementation 'org.postgresql:postgresql'
 //    runtimeOnly 'com.mysql:mysql-connector-j'
-    implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter:0.8.1'
-
+    implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter:0.8.0'
+//    implementation 'org.springframework.ai:spring-ai-openai:0.8.0'
 
 
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'

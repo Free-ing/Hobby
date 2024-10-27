@@ -116,14 +116,14 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
 
     //Todo: 회원의 취미 루틴 수정
     @Override
-    public void updateHobbyRoutine(HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto, String imageUrl, Long routineId, Long userId){
+    public void updateHobbyRoutine(HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto,Long routineId, Long userId){
         //routineId 와 userId로 취미 루틴 찾기
-        System.out.println("이미지 url:" + imageUrl);
+
         HobbyRoutine hobbyRoutine = hobbyRoutineRepository.findByIdAndUserId(routineId , userId)
                 .orElseThrow(()->new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_NOT_FOUND));
 
         //업로드 하고자 하는 이미지가 있다면 이미지를 수정하고, 없다면 기존 이미지로 유지
-        hobbyRoutine.updateHobbyRoutine(hobbyRoutineDto.getHobbyName(), imageUrl);
+        hobbyRoutine.updateHobbyRoutine(hobbyRoutineDto.getHobbyName(), hobbyRoutineDto.getImageUrl());
     }
 }
 
