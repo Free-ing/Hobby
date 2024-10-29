@@ -35,4 +35,5 @@ public class RoutineTrackerDto {
             this.id = id;
             this.createdAt = createdAt.toLocalDate();  // LocalDate로 변환
         }
-    }}
+    }
+}

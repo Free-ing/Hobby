@@ -20,5 +20,5 @@ public interface HobbyQueryService {
     List<HobbyResponseDto.AlbumResponseDto> getAlbumList(int year, int month, Long userId);
 
     //Todo: 취미 루틴 트래커 조회
-    List<RoutineTrackerDto.HobbyRoutineTrackerDto> getHobbyRoutineTrackers(Long userId);
+    List<RoutineTrackerDto.HobbyRoutineTrackerDto> getHobbyRoutineTrackers(Long userId, int year, int month);
 }

@@ -33,8 +33,12 @@ public interface HobbyRoutineRepository extends JpaRepository<HobbyRoutine,Long>
 //    List<HobbyResponseDto.HobbyRoutineDto> findByUserId(@Param("userId") Long userId);
 
     @Query("SELECT h FROM HobbyRoutine h " +
-            "LEFT JOIN FETCH h.hobbyRecordList " +
-            "WHERE h.userId = :userId")
-    List<HobbyRoutine> findAllWithRecordsByUserId(@Param("userId") Long userId);
-
+            "LEFT JOIN FETCH h.hobbyRecordList hr " +
+            "WHERE h.userId = :userId " +
+            "AND (hr IS NULL OR (YEAR(hr.createdAt) = :year AND MONTH(hr.createdAt) = :month))")
+    List<HobbyRoutine> findAllWithRecordsByUserId(
+            @Param("userId") Long userId,
+            @Param("year") int year,
+            @Param("month") int month
+    );
 }

@@ -72,21 +72,22 @@ public class HobbyQueryServiceImpl implements HobbyQueryService {
 
     //Todo: 취미 루틴 트래커 조회
     @Override
-    public List<RoutineTrackerDto.HobbyRoutineTrackerDto> getHobbyRoutineTrackers(Long userId) {
+    public List<RoutineTrackerDto.HobbyRoutineTrackerDto> getHobbyRoutineTrackers(Long userId, int year, int month) {
         Map<String, RoutineTrackerDto.HobbyRoutineTrackerDto> routineMap = new LinkedHashMap<>();
-
-        List<HobbyRoutine> routines = hobbyRoutineRepository.findAllWithRecordsByUserId(userId);
+        List<HobbyRoutine> routines = hobbyRoutineRepository.findAllWithRecordsByUserId(userId, year, month);
 
         for (HobbyRoutine routine : routines) {
-            RoutineTrackerDto.HobbyRoutineTrackerDto trackerDto =
-                    routineMap.computeIfAbsent(routine.getHobbyName(),
-                            k -> new RoutineTrackerDto.HobbyRoutineTrackerDto(routine.getHobbyName()));
+            if (!routine.getHobbyRecordList().isEmpty()) {  // 레코드가 있는 경우만 처리
+                RoutineTrackerDto.HobbyRoutineTrackerDto trackerDto =
+                        routineMap.computeIfAbsent(routine.getHobbyName(),
+                                k -> new RoutineTrackerDto.HobbyRoutineTrackerDto(routine.getHobbyName()));
 
-            for (HobbyRecord record : routine.getHobbyRecordList()) {
-                trackerDto.addRecord(new RoutineTrackerDto.HobbyRecordDto(
-                        record.getId(),
-                        record.getCreatedAt()
-                ));
+                for (HobbyRecord record : routine.getHobbyRecordList()) {
+                    trackerDto.addRecord(new RoutineTrackerDto.HobbyRecordDto(
+                            record.getId(),
+                            record.getCreatedAt()
+                    ));
+                }
             }
         }
 

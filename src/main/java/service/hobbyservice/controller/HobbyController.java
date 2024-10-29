@@ -212,16 +212,16 @@ public class HobbyController {
     }
 
     //Todo: 월별 취미 루틴 트래커 조회
-    @GetMapping("/tracker")
+    @GetMapping("/tracker/{userId}")
     public BaseResponse<List<RoutineTrackerDto.HobbyRoutineTrackerDto>> getRoutineTracker(
             @RequestParam int year,
             @RequestParam int month,
-//            @PathVariable Long userId
-            @RequestHeader("Authorization") String authorizationHeader
+            @PathVariable Long userId
+//            @RequestHeader("Authorization") String authorizationHeader
 
     ){
-        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
-        return BaseResponse.onSuccess(hobbyQueryService.getHobbyRoutineTrackers(userId));
+        return BaseResponse.onSuccess(hobbyQueryService.getHobbyRoutineTrackers(userId,year,month));
     }
 }
