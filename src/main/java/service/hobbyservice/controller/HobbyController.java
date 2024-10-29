@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.hobbyservice.base.BaseResponse;
 import service.hobbyservice.dto.request.HobbyRequestDto;
-//import service.hobbyservice.dto.request.ImageUploadResponseDto;
 import service.hobbyservice.dto.request.ImageUploadResponseDto;
 import service.hobbyservice.dto.request.SurveyResultDto;
 import service.hobbyservice.dto.response.HobbyResponseDto;
@@ -40,16 +39,16 @@ public class HobbyController {
 
 
     //Todo: 취미 기록하기
-    @PostMapping(value = "/record/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/record", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse<Long> uploadImage(
             @RequestParam("file") MultipartFile file,
             @RequestPart @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
-            @PathVariable Long userId
-//            @RequestHeader("Authorization") String authorizationHeader
+//            @PathVariable Long userId
+            @RequestHeader("Authorization") String authorizationHeader
 
 
     ) throws IOException {
-//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
         String imageUrl = imageUploadService.uploadImage(file);
 
@@ -65,13 +64,13 @@ public class HobbyController {
 
 
     //Todo: 루틴 추가하기
-    @PostMapping("/routine/{userId}")
+    @PostMapping("/routine")
     public BaseResponse<Long> addHobbyRoutine(
             @RequestBody@Valid HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto,
-            @PathVariable Long userId
-//            @RequestHeader("Authorization") String authorizationHeader
+//            @PathVariable Long userId
+            @RequestHeader("Authorization") String authorizationHeader
     ){
-//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
 //        String imageUrl = imageUploadService.uploadImage(file);
 
@@ -213,12 +212,16 @@ public class HobbyController {
     }
 
     //Todo: 월별 취미 루틴 트래커 조회
-    @GetMapping("/tracker/{userId}")
+    @GetMapping("/tracker")
     public BaseResponse<List<RoutineTrackerDto.HobbyRoutineTrackerDto>> getRoutineTracker(
             @RequestParam int year,
             @RequestParam int month,
-            @PathVariable Long userId
+//            @PathVariable Long userId
+            @RequestHeader("Authorization") String authorizationHeader
+
     ){
-       return BaseResponse.onSuccess(hobbyQueryService.getHobbyRoutineTrackers(userId));
+        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+
+        return BaseResponse.onSuccess(hobbyQueryService.getHobbyRoutineTrackers(userId));
     }
 }
