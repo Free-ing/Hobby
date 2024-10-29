@@ -61,7 +61,7 @@ public class HobbyQueryServiceImpl implements HobbyQueryService {
         return hobbyRecordRepository.findByYearAndMonth(year, month, userId)
                 .stream()
                 .map(hobbyRecord -> HobbyResponseDto.AlbumResponseDto.builder()
-                        .date(hobbyRecord.getCreatedAt().toLocalDate())
+                        .date(hobbyRecord.getRoutineDate())
                         .hobbyName(hobbyRecord.getHobbyRoutine().getHobbyName())
                         .photoUrl(hobbyRecord.getPhotoUrl())
                         .recordBody(hobbyRecord.getRecordBody())
