@@ -17,6 +17,7 @@ import service.hobbyservice.service.*;
 
 import javax.print.attribute.standard.Media;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -42,6 +43,7 @@ public class HobbyController {
     @PostMapping(value = "/record", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse<Long> uploadImage(
             @RequestParam("file") MultipartFile file,
+            @RequestParam LocalDate date,
             @RequestPart @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
 //            @PathVariable Long userId
             @RequestHeader("Authorization") String authorizationHeader
@@ -56,7 +58,7 @@ public class HobbyController {
             hobbyRecordDto.setPhotoUrl(imageUrl);
 
             // 취미 기록 생성
-            Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId);
+            Long recordId = hobbyCommonService.createHobbyRecord(hobbyRecordDto, userId, date);
 
             return BaseResponse.onSuccess(recordId);
 
@@ -168,14 +170,12 @@ public class HobbyController {
 
 
     //Todo: 회원의 모든 취미 기록 삭제
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/users")
     public BaseResponse<String> deleteHobbyRecord(
-//            @PathVariable Long userId
             @RequestHeader("Authorization") String authorizationHeader
-
     ){
         Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
-
+        System.out.println(userId);
         hobbyCommonService.deleteHobbyData(userId);
         return BaseResponse.onSuccess("성공적으로 취미 기록을 삭제했습니다.");
     }
@@ -206,7 +206,7 @@ public class HobbyController {
             @RequestHeader("Authorization") String authorizationHeader
 
     ) {
-//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
         List<HobbyResponseDto.AiHobbyResponseDto> recommendations = openAiService.generateHobbyRecommendations(surveyResultDto);
         return BaseResponse.onSuccess(recommendations);
     }

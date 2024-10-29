@@ -13,6 +13,7 @@ import service.hobbyservice.entity.HobbyRoutine;
 import service.hobbyservice.repository.HobbyRecordRepository;
 import service.hobbyservice.repository.HobbyRoutineRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static service.hobbyservice.converter.toDto.toDto.toHobbyRecordDto;
@@ -28,10 +29,10 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
 
     @Override
     //Todo: 취미 기록하기
-    public Long createHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long userId) {
+    public Long createHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long userId, LocalDate date) {
 
         // 엔티티로 변환
-        HobbyRecord hobbyRecord = HobbyConverter.toHobbyRecord(hobbyRecordDto, userId);
+        HobbyRecord hobbyRecord = HobbyConverter.toHobbyRecord(hobbyRecordDto, userId,date);
 
         //루틴 객체 찾아오기
         HobbyRoutine hobbyRoutine = hobbyQueryService.findByHobbyNameAndUserId(hobbyRecordDto.getHobbyName(), userId);

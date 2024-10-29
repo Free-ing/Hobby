@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import service.hobbyservice.base.BaseEntity;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.StringJoiner;
 
@@ -24,6 +25,7 @@ public class HobbyRecord extends BaseEntity {
 
 //    private Date hobbyDay;
 
+    private LocalDate routineDate;
     private String photoUrl;
 
 //    private String hobbyName;
@@ -37,10 +39,11 @@ public class HobbyRecord extends BaseEntity {
 //    private Time hobbyTime;
 
     @Builder
-    public HobbyRecord(String recordBody, Long userId, String photoUrl) {
+    public HobbyRecord(String recordBody, Long userId, String photoUrl, LocalDate routineDate) {
         this.recordBody = recordBody;
         this.photoUrl = photoUrl;
         this.userId = userId;
+        this.routineDate = routineDate;
     }
 
     public void setHobbyRoutine(HobbyRoutine hobbyRoutine){

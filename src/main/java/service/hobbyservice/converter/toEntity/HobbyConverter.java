@@ -5,14 +5,17 @@ import service.hobbyservice.dto.response.HobbyResponseDto;
 import service.hobbyservice.entity.HobbyRecord;
 import service.hobbyservice.entity.HobbyRoutine;
 
+import java.time.LocalDate;
+
 public class HobbyConverter {
 
 
     // dto를 record 객체로 변환
-    public static HobbyRecord toHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long userId) {
+    public static HobbyRecord toHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto, Long userId, LocalDate date) {
         return HobbyRecord.builder()
                 .recordBody(hobbyRecordDto.getHobbyBody())
                 .userId(userId)
+                .routineDate(date)
                 .photoUrl(hobbyRecordDto.getPhotoUrl())
                 .build();
     }
