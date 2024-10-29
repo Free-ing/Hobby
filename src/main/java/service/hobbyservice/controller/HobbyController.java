@@ -13,6 +13,7 @@ import service.hobbyservice.dto.request.HobbyRequestDto;
 import service.hobbyservice.dto.request.ImageUploadResponseDto;
 import service.hobbyservice.dto.request.SurveyResultDto;
 import service.hobbyservice.dto.response.HobbyResponseDto;
+import service.hobbyservice.dto.response.RoutineTrackerDto;
 import service.hobbyservice.service.*;
 
 import javax.print.attribute.standard.Media;
@@ -39,16 +40,16 @@ public class HobbyController {
 
 
     //Todo: 취미 기록하기
-    @PostMapping(value = "/record", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/record/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse<Long> uploadImage(
             @RequestParam("file") MultipartFile file,
             @RequestPart @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
-//            @PathVariable Long userId
-            @RequestHeader("Authorization") String authorizationHeader
+            @PathVariable Long userId
+//            @RequestHeader("Authorization") String authorizationHeader
 
 
     ) throws IOException {
-        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
         String imageUrl = imageUploadService.uploadImage(file);
 
@@ -64,13 +65,13 @@ public class HobbyController {
 
 
     //Todo: 루틴 추가하기
-    @PostMapping("/routine")
+    @PostMapping("/routine/{userId}")
     public BaseResponse<Long> addHobbyRoutine(
             @RequestBody@Valid HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto,
-//            @PathVariable Long userId
-            @RequestHeader("Authorization") String authorizationHeader
+            @PathVariable Long userId
+//            @RequestHeader("Authorization") String authorizationHeader
     ){
-        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+//        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
 //        String imageUrl = imageUploadService.uploadImage(file);
 
@@ -211,4 +212,13 @@ public class HobbyController {
         return BaseResponse.onSuccess(recommendations);
     }
 
+    //Todo: 월별 취미 루틴 트래커 조회
+    @GetMapping("/tracker/{userId}")
+    public BaseResponse<List<RoutineTrackerDto.HobbyRoutineTrackerDto>> getRoutineTracker(
+            @RequestParam int year,
+            @RequestParam int month,
+            @PathVariable Long userId
+    ){
+       return BaseResponse.onSuccess(hobbyQueryService.getHobbyRoutineTrackers(userId));
+    }
 }

@@ -6,11 +6,16 @@ import org.springframework.transaction.annotation.Transactional;
 import service.hobbyservice.base.exception.code.RestApiException;
 import service.hobbyservice.base.exception.code.RoutineErrorStatus;
 import service.hobbyservice.dto.response.HobbyResponseDto;
+import service.hobbyservice.dto.response.RoutineTrackerDto;
+import service.hobbyservice.entity.HobbyRecord;
 import service.hobbyservice.entity.HobbyRoutine;
 import service.hobbyservice.repository.HobbyRecordRepository;
 import service.hobbyservice.repository.HobbyRoutineRepository;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -64,4 +69,27 @@ public class HobbyQueryServiceImpl implements HobbyQueryService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    //Todo: 취미 루틴 트래커 조회
+    @Override
+    public List<RoutineTrackerDto.HobbyRoutineTrackerDto> getHobbyRoutineTrackers(Long userId) {
+        Map<String, RoutineTrackerDto.HobbyRoutineTrackerDto> routineMap = new LinkedHashMap<>();
+
+        List<HobbyRoutine> routines = hobbyRoutineRepository.findAllWithRecordsByUserId(userId);
+
+        for (HobbyRoutine routine : routines) {
+            RoutineTrackerDto.HobbyRoutineTrackerDto trackerDto =
+                    routineMap.computeIfAbsent(routine.getHobbyName(),
+                            k -> new RoutineTrackerDto.HobbyRoutineTrackerDto(routine.getHobbyName()));
+
+            for (HobbyRecord record : routine.getHobbyRecordList()) {
+                trackerDto.addRecord(new RoutineTrackerDto.HobbyRecordDto(
+                        record.getId(),
+                        record.getCreatedAt()
+                ));
+            }
+        }
+
+        return new ArrayList<>(routineMap.values());
     }
+}

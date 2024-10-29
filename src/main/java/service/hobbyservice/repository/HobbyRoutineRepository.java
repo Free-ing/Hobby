@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import service.hobbyservice.dto.response.HobbyResponseDto;
+import service.hobbyservice.dto.response.RoutineTrackerDto;
 import service.hobbyservice.entity.HobbyRoutine;
 
 import java.util.List;
@@ -30,5 +31,10 @@ public interface HobbyRoutineRepository extends JpaRepository<HobbyRoutine,Long>
 
 //    @Query("SELECT new service.hobbyservice.dto.response.HobbyResponseDto$HobbyRoutineDto(hr.id, hr.hobbyName, hr.imageUrl) FROM HobbyRoutine hr WHERE hr.userId = :userId")
 //    List<HobbyResponseDto.HobbyRoutineDto> findByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT h FROM HobbyRoutine h " +
+            "LEFT JOIN FETCH h.hobbyRecordList " +
+            "WHERE h.userId = :userId")
+    List<HobbyRoutine> findAllWithRecordsByUserId(@Param("userId") Long userId);
 
 }
