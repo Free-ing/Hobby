@@ -17,6 +17,7 @@ import java.util.StringJoiner;
 public class HobbyRecord extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "hobby_record_id")
     private Long id;
 
     private String recordBody;

@@ -14,6 +14,7 @@ import java.util.List;
 public class HobbyRoutine extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "hobby_routine_id")
     private Long id;
 
     @Column(name =  "hobby_name")

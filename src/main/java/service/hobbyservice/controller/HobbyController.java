@@ -168,7 +168,7 @@ public class HobbyController {
 
 
     //Todo: 회원의 모든 취미 기록 삭제
-    @DeleteMapping("/userId")
+    @DeleteMapping("/{userId}")
     public BaseResponse<String> deleteHobbyRecord(
 //            @PathVariable Long userId
             @RequestHeader("Authorization") String authorizationHeader
