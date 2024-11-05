@@ -8,6 +8,7 @@ import service.hobbyservice.dto.response.HobbyResponseDto;
 import service.hobbyservice.dto.response.RoutineTrackerDto;
 import service.hobbyservice.entity.HobbyRoutine;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,10 +36,11 @@ public interface HobbyRoutineRepository extends JpaRepository<HobbyRoutine,Long>
     @Query("SELECT h FROM HobbyRoutine h " +
             "LEFT JOIN FETCH h.hobbyRecordList hr " +
             "WHERE h.userId = :userId " +
-            "AND (hr IS NULL OR (YEAR(hr.createdAt) = :year AND MONTH(hr.createdAt) = :month))")
+            "AND (hr IS NULL OR (YEAR(hr.routineDate) = :year AND MONTH(hr.routineDate) = :month))")
     List<HobbyRoutine> findAllWithRecordsByUserId(
             @Param("userId") Long userId,
             @Param("year") int year,
             @Param("month") int month
     );
+
 }

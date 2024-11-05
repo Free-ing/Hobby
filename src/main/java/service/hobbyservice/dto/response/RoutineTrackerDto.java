@@ -29,11 +29,11 @@ public class RoutineTrackerDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class HobbyRecordDto {
         private Long id;
-        private LocalDate createdAt;  // LocalDateTime 대신 LocalDate 사용
+        private LocalDate routineDate;  // LocalDateTime 대신 LocalDate 사용
 
-        public HobbyRecordDto(Long id, LocalDateTime createdAt) {
+        public HobbyRecordDto(Long id, LocalDate routineDate) {
             this.id = id;
-            this.createdAt = createdAt.toLocalDate();  // LocalDate로 변환
+            this.routineDate = routineDate;  // LocalDate로 변환
         }
     }
 }

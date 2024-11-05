@@ -18,6 +18,7 @@ import service.hobbyservice.service.*;
 import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -170,12 +171,10 @@ public class HobbyController {
 
 
     //Todo: 회원의 모든 취미 기록 삭제
-    @DeleteMapping("/users")
+    @DeleteMapping("/users/{userId}")
     public BaseResponse<String> deleteHobbyRecord(
-            @RequestHeader("Authorization") String authorizationHeader
+        @PathVariable Long userId
     ){
-        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
-        System.out.println(userId);
         hobbyCommonService.deleteHobbyData(userId);
         return BaseResponse.onSuccess("성공적으로 취미 기록을 삭제했습니다.");
     }
@@ -212,7 +211,7 @@ public class HobbyController {
     }
 
     //Todo: 월별 취미 루틴 트래커 조회
-    @GetMapping("/tracker/{userId}")
+    @GetMapping("/tracker")
     public BaseResponse<List<RoutineTrackerDto.HobbyRoutineTrackerDto>> getRoutineTracker(
             @RequestParam int year,
             @RequestParam int month,
@@ -223,5 +222,31 @@ public class HobbyController {
         Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
 
         return BaseResponse.onSuccess(hobbyQueryService.getHobbyRoutineTrackers(userId,year,month));
+    }
+
+    //Todo : 취미 기본 기능 생성
+    @PostMapping("/default-routine/{userId}")
+    public void createDefaultRoutine(
+            @PathVariable Long userId
+    ){
+        hobbyCommonService.createDefaultService(userId);
+    }
+
+    //Todo: 하나라도 수행한 일정이 있다면 조회하는 그 날짜 반환하기
+
+    @GetMapping("/home/record-week/{userId}")
+    public BaseResponse<?> getDate(
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate,
+            @PathVariable Long userId
+    ) {
+        List<HobbyResponseDto.DayCompleteRoutine> existingDates =
+                hobbyQueryService.getCompleteDate(startDate, endDate, userId);
+
+        if (existingDates.isEmpty()) {
+            return BaseResponse.onSuccess(Collections.emptyList());
+        }
+
+        return BaseResponse.onSuccess(existingDates);
     }
 }

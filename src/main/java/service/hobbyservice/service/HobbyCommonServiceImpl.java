@@ -40,6 +40,7 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
 
         // 루틴 기록에 루틴 카테고리 설정
         hobbyRecord.setHobbyRoutine(hobbyRoutine);
+
         HobbyRecord savedRecord = hobbyRecordRepository.save(hobbyRecord);
 
         return savedRecord.getId();
@@ -61,6 +62,8 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
         } else {
             //존재하지 않는 경우
             HobbyRoutine hobbyRoutine = HobbyConverter.toHobbyRoutine(hobbyRoutineDto, userId);
+
+
             HobbyRoutine saveHobbyRoutine = hobbyRoutineRepository.save(hobbyRoutine);
             return saveHobbyRoutine.getId();
         }
@@ -125,6 +128,29 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
 
         //업로드 하고자 하는 이미지가 있다면 이미지를 수정하고, 없다면 기존 이미지로 유지
         hobbyRoutine.updateHobbyRoutine(hobbyRoutineDto.getHobbyName(), hobbyRoutineDto.getImageUrl());
+    }
+
+    //Todo: 기본 기능 생성
+    @Override
+    public void createDefaultService(Long userId) {
+        HobbyRoutine tvRoutine = createHobbyRoutine(userId, "TV/영화 감상", "https://freeingimage.s3.ap-northeast-2.amazonaws.com/watching_tv.png");
+        HobbyRoutine readingRoutine = createHobbyRoutine(userId, "독서", "https://freeingimage.s3.ap-northeast-2.amazonaws.com/reading.png");
+        HobbyRoutine gameRoutine = createHobbyRoutine(userId, "오락", "https://freeingimage.s3.ap-northeast-2.amazonaws.com/games.png");
+        HobbyRoutine cookingRoutine = createHobbyRoutine(userId, "요리", "https://freeingimage.s3.ap-northeast-2.amazonaws.com/cook.png");
+
+        hobbyRoutineRepository.save(tvRoutine);
+        hobbyRoutineRepository.save(readingRoutine);
+        hobbyRoutineRepository.save(gameRoutine);
+        hobbyRoutineRepository.save(cookingRoutine);
+    }
+
+
+    private HobbyRoutine createHobbyRoutine(Long userId, String routineName, String imageUrl) {
+        return HobbyRoutine.builder()
+                .hobbyName(routineName)
+                .userId(userId)
+                .imageUrl(imageUrl)
+                .build();
     }
 }
 

@@ -12,6 +12,7 @@ import service.hobbyservice.entity.HobbyRoutine;
 import service.hobbyservice.repository.HobbyRecordRepository;
 import service.hobbyservice.repository.HobbyRoutineRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -85,12 +86,19 @@ public class HobbyQueryServiceImpl implements HobbyQueryService {
                 for (HobbyRecord record : routine.getHobbyRecordList()) {
                     trackerDto.addRecord(new RoutineTrackerDto.HobbyRecordDto(
                             record.getId(),
-                            record.getCreatedAt()
+                            record.getRoutineDate()
                     ));
                 }
             }
         }
 
         return new ArrayList<>(routineMap.values());
+    }
+
+    //Todo: 홈화면 하나라도 수행한 날짜 반환
+    @Override
+    @Transactional(readOnly = true)
+    public List<HobbyResponseDto.DayCompleteRoutine> getCompleteDate(LocalDate startDate, LocalDate endDate, Long userId) {
+        return hobbyRecordRepository.findCompletedDatesByUserIdAndDateRange(userId, startDate, endDate);
     }
 }

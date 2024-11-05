@@ -63,4 +63,16 @@ public class HobbyResponseDto {
         private String explanation;
 
     }
+
+    @Getter
+    @NoArgsConstructor
+    @Builder
+    public static class DayCompleteRoutine {
+        private LocalDate completeDate;
+
+        // JPQL new 연산자를 위한 생성자 추가
+        public DayCompleteRoutine(LocalDate completeDate) {
+            this.completeDate = completeDate;
+        }
+    }
 }

@@ -21,4 +21,17 @@ public interface HobbyRecordRepository extends JpaRepository<HobbyRecord, Long> 
     List<HobbyRecord> findByYearAndMonth(@Param("year") int year, @Param("month") int month, Long userId);
 
     Optional<HobbyRecord> findByIdAndUserId(Long id, Long userId);
+
+    @Query("SELECT new service.hobbyservice.dto.response.HobbyResponseDto$DayCompleteRoutine(h.routineDate) " +
+            "FROM HobbyRecord h " +
+            "WHERE h.userId = :userId " +
+            "AND h.routineDate BETWEEN :startDate AND :endDate " +
+            "GROUP BY h.routineDate " +
+            "ORDER BY h.routineDate")
+    List<HobbyResponseDto.DayCompleteRoutine> findCompletedDatesByUserIdAndDateRange(
+            @Param("userId") Long userId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
+
 }

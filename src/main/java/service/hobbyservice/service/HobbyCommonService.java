@@ -27,4 +27,7 @@ public interface HobbyCommonService {
 
     //Todo: 회원의 취미 루틴 수정
     void updateHobbyRoutine(HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto, Long routineId, Long userId);
+
+    //Todo: 기본 기능 생성
+    void createDefaultService(Long userId);
 }
