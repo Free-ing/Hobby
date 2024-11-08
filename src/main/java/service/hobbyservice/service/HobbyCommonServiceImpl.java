@@ -71,7 +71,7 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
 
     //Todo: 취미 기록 수정
     @Override
-    public HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto,String imageUrl,Long recordId,Long userId){
+    public HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto,String newImageUrl,Long recordId,Long userId){
 
         //취미 기록 불러오기
         HobbyRecord hobbyRecord = hobbyRecordRepository.findById(recordId)
@@ -81,8 +81,15 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
         HobbyRoutine hobbyRoutine = hobbyRoutineRepository.findByHobbyNameAndUserId(hobbyRecordDto.getHobbyName(), userId)
                 .orElseThrow(() -> new RestApiException(RoutineErrorStatus.HOBBY_ROUTINE_NOT_FOUND));
 
+        if (newImageUrl != null) {
+            // 새 이미지가 업로드된 경우, 기존 이미지 삭제 후 새 이미지로 교체
+            if (hobbyRecord.getPhotoUrl() != null) {
+                // S3에서 기존 이미지 삭제 로직
+            }
+            hobbyRecord.setPhotoUrl(newImageUrl);
+        }
         //취미 업데이트
-        hobbyRecord.updateRecord(hobbyRoutine,hobbyRecordDto.getHobbyBody(), imageUrl);
+        hobbyRecord.updateRecord(hobbyRoutine,hobbyRecordDto.getHobbyBody(), newImageUrl);
 
         //취미 반환
         return toHobbyRecordDto(hobbyRecord, hobbyRoutine);

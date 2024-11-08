@@ -103,24 +103,22 @@ public class HobbyController {
     }
 
     //Todo: 취미 기록 수정
-    @PutMapping(value =  "/record/{recordId}" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/record/{recordId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse<HobbyResponseDto.HobbyRecordDto> updateRoutineRecord(
             @RequestPart @Valid HobbyRequestDto.hobbyRecordDto hobbyRecordDto,
-            @RequestParam MultipartFile file,
+            @RequestParam(required = false) MultipartFile file,  // file을 optional로 변경
             @PathVariable Long recordId,
-//            @PathVariable Long userId
             @RequestHeader("Authorization") String authorizationHeader
-    ){
+    ) {
         Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+        String imageUrl = null;
 
-        String imageUrl;
-
-        if (file.isEmpty()){
-            imageUrl = null;
-        }else{
+        if (file != null && !file.isEmpty()) {
+            // 새로운 이미지가 업로드된 경우에만 S3에 업로드
             imageUrl = imageUploadService.uploadImage(file);
         }
-        return BaseResponse.onSuccess(hobbyCommonService.updateHobbyRecord(hobbyRecordDto,imageUrl,recordId,userId));
+        // imageUrl이 null이면 서비스 계층에서 기존 이미지 URL을 유지하도록 처리
+        return BaseResponse.onSuccess(hobbyCommonService.updateHobbyRecord(hobbyRecordDto, imageUrl, recordId, userId));
     }
 
 
@@ -233,13 +231,14 @@ public class HobbyController {
     }
 
     //Todo: 하나라도 수행한 일정이 있다면 조회하는 그 날짜 반환하기
-
-    @GetMapping("/home/record-week/{userId}")
+    @GetMapping("/home/record-week")
     public BaseResponse<?> getDate(
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate,
-            @PathVariable Long userId
+            @RequestHeader("Authorization") String authorizationHeader
     ) {
+        Long userId = tokenProviderService.getUserIdFromToken(authorizationHeader);
+
         List<HobbyResponseDto.DayCompleteRoutine> existingDates =
                 hobbyQueryService.getCompleteDate(startDate, endDate, userId);
 

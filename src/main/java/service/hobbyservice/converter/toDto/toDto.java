@@ -12,7 +12,6 @@ public class toDto {
         return HobbyResponseDto.HobbyRecordDto.builder()
                 .hobbyBody(hobbyRecord.getRecordBody())
                 .hobbyName(hobbyRoutine.getHobbyName())
-                .photoUrl(hobbyRecord.getPhotoUrl())
                 .build();
     }
 

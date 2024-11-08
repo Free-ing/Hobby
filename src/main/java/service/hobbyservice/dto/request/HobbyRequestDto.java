@@ -18,9 +18,7 @@ public class HobbyRequestDto {
     public static class hobbyRecordDto {
         @NotEmpty(message = "취미의 이름을 정해주세요.")
         private String hobbyName;
-
         private String photoUrl;
-
         private String hobbyBody;
 
     }
