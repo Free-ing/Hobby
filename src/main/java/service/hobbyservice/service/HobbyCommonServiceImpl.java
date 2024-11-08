@@ -74,7 +74,7 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
     public HobbyResponseDto.HobbyRecordDto updateHobbyRecord(HobbyRequestDto.hobbyRecordDto hobbyRecordDto,String newImageUrl,Long recordId,Long userId){
 
         //취미 기록 불러오기
-        HobbyRecord hobbyRecord = hobbyRecordRepository.findById(recordId)
+        HobbyRecord hobbyRecord = hobbyRecordRepository.findByIdAndUserId(recordId, userId)
                 .orElseThrow(() -> new RestApiException(RoutineErrorStatus.RECORD_NOT_FOUND));
 
         // 사용자가 원하는 취미 루틴 불러오기
