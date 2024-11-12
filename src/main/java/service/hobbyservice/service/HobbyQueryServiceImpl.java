@@ -81,8 +81,12 @@ public class HobbyQueryServiceImpl implements HobbyQueryService {
             if (!routine.getHobbyRecordList().isEmpty()) {  // 레코드가 있는 경우만 처리
                 RoutineTrackerDto.HobbyRoutineTrackerDto trackerDto =
                         routineMap.computeIfAbsent(routine.getHobbyName(),
-                                k -> new RoutineTrackerDto.HobbyRoutineTrackerDto(routine.getHobbyName()));
-
+                                k -> {
+                                    RoutineTrackerDto.HobbyRoutineTrackerDto dto =
+                                            new RoutineTrackerDto.HobbyRoutineTrackerDto(routine.getHobbyName());
+                                    dto.setImageUrl(routine.getImageUrl()); // 이미지 URL 설정
+                                    return dto;
+                                });
                 for (HobbyRecord record : routine.getHobbyRecordList()) {
                     trackerDto.addRecord(new RoutineTrackerDto.HobbyRecordDto(
                             record.getId(),

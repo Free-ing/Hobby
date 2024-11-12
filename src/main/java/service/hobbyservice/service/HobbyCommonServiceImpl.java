@@ -50,9 +50,6 @@ public class HobbyCommonServiceImpl implements HobbyCommonService {
     @Override
     public Long addHobbyRoutine(HobbyRequestDto.hobbyRoutineDto hobbyRoutineDto, Long userId) {
 
-        // 추가하려고 하는 취미 루틴 조회해보기
-        System.out.println(hobbyRoutineDto.getHobbyName());
-
         //취미가 있는지 조회하기
         HobbyRoutine findHobbyRoutine = hobbyQueryService.findByHobbyNameAndUserIdOrNull(hobbyRoutineDto.getHobbyName(), userId);
 
